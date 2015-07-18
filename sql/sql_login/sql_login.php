@@ -1,9 +1,13 @@
 <?php
 #INCLUIMOS LA CONEXION A LA BASE DE DATOS
 session_start();
-sleep(1);	
-include_once $_SERVER['DOCUMENT_ROOT'].'/sadmin/process/pro_connect/pro_connect.php';
+ini_set("display_errors", 1); 
+//sleep(1);	
+//echo "---> $name_proyect"; exit;
+require_once $_SERVER['DOCUMENT_ROOT'].'/orfeounity/process/pro_connect/pro_connect.php';
 $connectdb=connecttodb(); 
+echo "hello2"; exit;
+/*
 mysqli_set_charset($connectdb, "utf8");
 
 $use_nam = $_POST['use_nam'];
@@ -27,4 +31,5 @@ else {
 }
 	mysqli_free_result($sql_login);
 	mysqli_close($connectdb); 
+    */
 ?>

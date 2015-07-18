@@ -25,7 +25,7 @@ $('#use_nam, #use_pas').keypress(function (e) {
 		   		$("#use_nam").attr('disabled','disabled');
 		  	 },
 		   type: "POST",
-		   url: "/sadmin/sql/sql_login/sql_login.php",
+		   url: "/"+name_proyect+"/sql/sql_login/sql_login.php",
 		   data: {use_nam:use_nam,use_pas:use_pas},
 		
 		   success: function(resp,resp2){   
@@ -67,7 +67,9 @@ $('#use_nam, #use_pas').keypress(function (e) {
 		   		}else{
 		   			$("#msg_login").css('display', 'block', 'important');
 		   			$("#msg_login").attr('class','alert alert-danger');
-					$("#msg_login").html(error);
+		   			if (error=='Not Found'){error="config_ini mal configurado";}
+		   			if (error=='Internal Server Error'){error="Error en la Conexión a la Base de Datos";}
+		   			$("#msg_login").html(error);
 					$("#msg_login").css({'margin-bottom':'-12px','margin-top':'10px'});
 		   			$("#contenbotton").html("Entrar");
 		   			$("#login").removeAttr('disabled');

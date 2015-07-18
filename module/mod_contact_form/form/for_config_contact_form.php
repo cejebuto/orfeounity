@@ -58,7 +58,7 @@ require $_SERVER['DOCUMENT_ROOT']."/sadmin/module/mod_contact_form/sql/sql_get_c
 </div>
 
 <script type="text/javascript">
-  $( document ).ready(function() {
+  $( document ).ready(function() { 
   	//Incluimos los script para hacer funcionar las configuraciones del correo
 	$.getScript( "/sadmin/module/mod_contact_form/js/js_update_contact_form_config.js" )
   	.done(function( script, textStatus ) { console.log('%c js_update_contact_form_config.js OK ', 'color: #088A29'); })

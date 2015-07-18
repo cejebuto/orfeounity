@@ -4,16 +4,16 @@
 	
 	<!-- start: Meta -->
 	<meta charset="utf-8">
-  <script src="/sadmin/ajs/jquery.js"></script>
+  <script src="/<?=$name_proyect?>/ajs/jquery.js"></script>
 
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- start: CSS -->
-  <link href="/sadmin/style/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/sadmin/style/css/style.min.css" rel="stylesheet">
-  <!--<link href="/sadmin/style/css/retina.min.css" rel="stylesheet">
-  <link href="/sadmin/style/css/print.css" rel="stylesheet" type="text/css" media="print"/>-->
+  <link href="/<?=$name_proyect?>/style/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/<?=$name_proyect?>/style/css/style.min.css" rel="stylesheet">
+  <!--<link href="/<?=$name_proyect?>/style/css/retina.min.css" rel="stylesheet">
+  <link href="/<?=$name_proyect?>/style/css/print.css" rel="stylesheet" type="text/css" media="print"/>-->
   <!-- end: CSS -->
   
  </head>
@@ -34,7 +34,7 @@ document.getElementById("use_nam").focus();
 
 				<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 login-box-locked" id="byb_fromlogin"style="margin-top:180;">
 					
-					<img src="/sadmin/style/img/gallery/photo7.jpg" class="avatar"/>
+					<img src="/<?=$name_proyect?>/style/img/gallery/photo7.jpg" class="avatar"/>
           <fieldset>
              <form action="./" method="post" autocomplete="off">
       					<div class="input-prepend input-group">
@@ -63,9 +63,12 @@ document.getElementById("use_nam").focus();
   <!-- theme scripts -->
 
   <!-- inline scripts related to this page -->
-  <script src="/sadmin/style/js/jquery.backstretch.min.js"></script>
-  <script src="/sadmin/style/js/pages/page-lockscreen.js"></script>
+  <script src="/<?=$name_proyect?>/style/js/jquery.backstretch.min.js"></script>
+  <script src="/<?=$name_proyect?>/style/js/pages/page-lockscreen.js"></script>
 	<!-- end: JavaScript-->
-   <script src="/sadmin/ajs/js_login/js_login.js"></script>
+  <!-- Le coloco el nombre al proyecto-->
+   <script> var name_proyect = "<?php echo $name_proyect;?>" ;</script>
+   
+   <script src="/<?=$name_proyect?>/ajs/js_login/js_login.js"></script>
 </body>
 </html>

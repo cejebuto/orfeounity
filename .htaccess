@@ -7,19 +7,19 @@ RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-f
 
  
-############################### SADMIN V1.0###############################
+############################### ORFEO UNITY V1.0###############################
 
 #===================LOGIN==================
-#RewriteRule ^user_login$ /sadmin/form/for_login/for_login.php [L]
+#RewriteRule ^user_login$ /orfeounity/form/for_login/for_login.php [L]
 
 
 
 
 #==================MODULES================== 
-#RewriteRule ^([^/]*)$ /sadmin/form/for_index/for_index.php?url_module=$1 [L] 
-RewriteRule ^([^/]*)$ /sadmin/index.php?url_module=$1 [L] 
-RewriteRule ^([^/]*)/0/([^/]*)$ /sadmin/index.php?url_module=$1&option=$2 [L]
-RewriteRule ^([^/]*)/1/([^/]*)/([0-9]*)$ /sadmin/index.php?url_module=$1&option=$2&item_id=$3 [L]
+#RewriteRule ^([^/]*)$ /orfeounity/form/for_index/for_index.php?url_module=$1 [L] 
+RewriteRule ^([^/]*)$ /orfeounity/index.php?url_module=$1 [L] 
+RewriteRule ^([^/]*)/0/([^/]*)$ /orfeounity/index.php?url_module=$1&option=$2 [L]
+RewriteRule ^([^/]*)/1/([^/]*)/([0-9]*)$ /orfeounity/index.php?url_module=$1&option=$2&item_id=$3 [L]
 
 </IfModule>
 
