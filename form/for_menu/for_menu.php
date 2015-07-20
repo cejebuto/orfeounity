@@ -1,2 +1,2 @@
-<li id="contact_form"><a class="menurgitcontrol" id="contact_form" href="/sadmin/contact_form"><i class="fa fa-envelope-o"></i><span class="hidden-sm text">Contactos</span></a></li>
+<li id="trays"><a class="menurgitcontrol" id="trays" href="/<?=$name_proyect?>/trays"><i class="fa fa-envelope-o"></i><span class="hidden-sm text">Bandejas</span></a></li>
    

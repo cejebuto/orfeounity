@@ -19,6 +19,7 @@ $_Msg_response = $db;
 $use_nam = $_POST['use_nam'];
 $use_pas = md5($_POST['use_pas']);
 
+//Query para traer el usuario.
 $query = "SELECT  
     use_id,
     use_nam,
@@ -45,13 +46,13 @@ if (!$rs){
     $num_row_connect = $rs->RecordCount(); 
 
     if( $num_row_connect == 1 ) { // Si hay un solo registro procedo a ingresar al aplicativo
+
         $_Msg_response = 'true';
 
         $_SESSION['id'] = md5(session_id()); 
-        $_SESSION['use_id'] =  $row_connect['use_id'];
-        $_SESSION['use_nam'] = $row_connect['use_nam'];
-        $_SESSION['use_pas'] = $row_connect['use_pas'];
-        $_SESSION['use_est'] = $row_connect['use_est'];
+        $_SESSION['use_id'] =  $rs->fields["use_id"];
+        $_SESSION['use_nam'] = $rs->fields["use_nam"];
+        $_SESSION['use_est'] = $rs->fields["use_est"];
 
         } else{
         $_Msg_response = "Usuario ó Contraseña Incorrectos";

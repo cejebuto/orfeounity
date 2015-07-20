@@ -3,7 +3,7 @@
 			&copy; Copyright 2014
 			</div><!--/.col-->
 			<div class="col-sm-7 text-right">
-				 Desarrollado por  <a href="#">Cesar</a> | Basado en Bootstrap 3.1.1 | Con tecnologia  <a href="https://angularjs.org/" alt="AngularJs">AngularJs</a>
+				 Desarrollado por  <a href="#">Cesar</a> | Basado en Bootstrap 3.1.1 </a>
 			</div><!--/.col-->	
 		</div><!--/.row-->	
 			 <script>

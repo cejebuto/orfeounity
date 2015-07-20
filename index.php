@@ -50,7 +50,7 @@ if (!isset($_SESSION['id'])){ ?>
     
 </head>
 
-<body>
+<body class = 'sidebar-minified'>
     <!-- start: Header -->
   <header class="navbar">
   <?php require $_SERVER['DOCUMENT_ROOT']."/$name_proyect/form/for_header/for_header.php";?>
@@ -60,24 +60,25 @@ if (!isset($_SESSION['id'])){ ?>
     <div class="container">
     <div class="row">
         
-      <!-- start: Main Menu -->
-      <div id="sidebar-left" class="col-lg-2 col-sm-1 ">
+      <!-- start: Main Menu /col-lg-2 col-sm-1 / col-lg-2 col-sm-1 minified -->
+      <div id="sidebar-left" class="col-lg-2 col-sm-1 minified">
                 
         <div class="sidebar-nav nav-collapse collapse navbar-collapse">
           <ul class="nav main-menu">
           <?php require $_SERVER['DOCUMENT_ROOT']."/$name_proyect/form/for_menu/for_menu.php";?>
           </ul>
-        </div>
-                  <a href="#" id="main-menu-min" class="full visible-md visible-lg"><i class="fa fa-angle-double-left"></i></a>
+        </div>    <!-- main menu / full visible-md visible-lg / col-lg-10 col-sm-11 sidebar-minified minified //// fa fa-angle-double-left / fa fa-angle-double-right-->
+                  <a href="#" id="main-menu-min" class="col-lg-10 col-sm-11 sidebar-minified minified"><i class="fa fa-angle-double-right"></i></a>
               </div>
       <!-- end: Main Menu -->
             
-      <!-- start: Content -->
-      <div id="content" class="col-lg-10 col-sm-11 ">
+      <!-- start: Content / col-lg-10 col-sm-11 / col-lg-10 col-sm-11 sidebar-minified-->
+      <div id="content" style ='padding-top:0px;' class="col-lg-10 col-sm-11 sidebar-minified">
       
       
       <div class="row">
-          <?php if(!isset($_GET['url_module'])){$_GET['url_module']='dashboard';} ?>
+        <?php // dashboard ?>
+          <?php if(!isset($_GET['url_module'])){$_GET['url_module']='trays';} ?>
           <?php  #require $_SERVER['DOCUMENT_ROOT']."/$name_proyect/module/mod_contact_form/form/for_config_contact_form.php";
            require $_SERVER['DOCUMENT_ROOT']."/$name_proyect/module/mod_".$_GET['url_module']."/index.php";?> 
       </div><!--/row--> 

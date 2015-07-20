@@ -1,3 +1,6 @@
+<?php session_start(); 
+//echo "->".$_SESSION['use_nam']; exit;
+?>
 <div class="container">
 			<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".sidebar-nav.nav-collapse">
 			      <span class="icon-bar"></span>
@@ -5,7 +8,7 @@
 			      <span class="icon-bar"></span>
 			</button>
 			<a id="main-menu-toggle" class="hidden-xs open"><i class="fa fa-bars"></i></a>		
-			<a class="navbar-brand col-md-2 col-sm-1 col-xs-2" href="/sadmin/"><span>Sadmin 1.0</span></a>
+			<a class="navbar-brand col-md-2 col-sm-1 col-xs-2" href="/<?=$name_proyect?>/"><span>OrfeoUnity</span></a>
 			<div id="search" class="col-sm-4 col-xs-8 col-lg-3" style="display:none" >
 				<input type="text" style="height:27px"placeholder="Buscar" />
 				<i class="fa fa-search"></i>
@@ -160,31 +163,31 @@
 					</li>-->
 					<!-- end: Notifications Dropdown -->
 					<!--<li>
-						<a class="btn" href="/sadmin/sql/sql_login/sql_logout.php">
+						<a class="btn" href="/<?=$name_proyect?>/sql/sql_login/sql_logout.php">
 							<i class="fa fa-wrench"></i>
 						</a>
 					</li>-->
 					<!-- start: User Dropdown -->
 					<li class="dropdown">
 						<a class="btn account dropdown-toggle" data-toggle="dropdown" href="#">
-							<div class="avatar"><img src="/sadmin/style/img/avatar.jpg" alt="Avatar"></div>
+							<div class="avatar"><img src="/<?=$name_proyect?>/style/img/avatar.jpg" alt="Avatar"></div>
 							<div class="user">
 								<span class="hello">Bienvenido!</span>
-								<span class="name">Jorge</span>
+								<span class="name"><? echo $_SESSION['use_nam']; ?></span>
 							</div>
 						</a>
 						<ul class="dropdown-menu">
 							<!--<li><a href="#"><i class="fa fa-user"></i> Perfil</a></li>
 							<li><a href="#"><i class="fa fa-cog"></i> Configuraciones</a></li>
 							<li><a href="#"><i class="fa fa-envelope"></i> Mensajes</a></li>-->
-							<li><a href="/sadmin/sql/sql_login/sql_logout.php"><i class="fa fa-sign-out"></i> Salir </a></li>
+							<li><a href="/<?=$name_proyect?>/sql/sql_login/sql_logout.php"><i class="fa fa-sign-out"></i> Salir </a></li>
 						</ul>
 					</li>
 					<!-- end: User Dropdown -->
 				</ul>
 			</div>
 			<!-- end: Header Menu -->
-		<!--    <script src="/sadmin/style/js/bootstrap.min.js"></script> Habilitar para el funcionamiento de los iconos del menu.-->
+		<!--    <script src="/<?=$name_proyect?>/style/js/bootstrap.min.js"></script> Habilitar para el funcionamiento de los iconos del menu.-->
 	</div>
 
 	<!-- page scripts -->
