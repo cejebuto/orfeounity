@@ -1,29 +1,29 @@
 <?php
 
 #Nos conectamos a la base de datos
-function connecttodb() { 
+function connecttodb($name_proyect,$_debug) { 
+  
    #Incluimos el archivo de configuración
-   require $_SERVER['DOCUMENT_ROOT'].'/orfeounity/config.php';
-   /*
-   if (!($connectdb = mysqli_connect($hostname, $username, $password, $database)
-      or trigger_error(mysqli_error($connectdb),E_USER_ERROR))) { 
-      echo "Error al conectarnos a la base de datos.";
-      
-   }
-	if (mysqli_connect_errno()) {
-		printf("Problema:  %s\n", mysqli_connect_error());
-		exit();
-	}
-   */
+   require $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect.'/config.php';
 
-   $connectdb = pg_connect("host=$hostname, port=$port, user=$username, pass=$password, dbname=$database");
+   #incluimos el ADODB
+   require $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect.'/dbal/adodb.inc.php';
+    $db = ADONewConnection($_driver);
+    $db->debug = $_debug;
 
-    if(!$connectdb) {
-        echo "<p><i>No me conecte</i></p>";
+    #intentamos conectarnos a la base de datos.
+   if( ! $db->Connect($_hostname, $_username, $_password, $_database)) {
+        $connectdb = false;
+        $db = "<p><i>No fue posible conectarse a la base de datos, mas info en :config.php;$_debug=true</i></p>";
     }else{
-        echo "<p><i>Me conecte</i></p>";
+      $connectdb = true;
     }
-return $connectdb; 
+
+    #construimos la respuesta
+    $response[0] = $db;
+    $response[1] = $connectdb;
+        
+return $response; 
 }
 
 ?>

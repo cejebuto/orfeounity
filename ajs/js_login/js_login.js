@@ -26,7 +26,7 @@ $('#use_nam, #use_pas').keypress(function (e) {
 		  	 },
 		   type: "POST",
 		   url: "/"+name_proyect+"/sql/sql_login/sql_login.php",
-		   data: {use_nam:use_nam,use_pas:use_pas},
+		   data: {use_nam:use_nam,use_pas:use_pas,name_proyect:name_proyect},
 		
 		   success: function(resp,resp2){   
 		   		if (resp=='true'){
@@ -41,10 +41,11 @@ $('#use_nam, #use_pas').keypress(function (e) {
 		   			document.location.href='/';
 		   			location.reload();
 	   			}else{
+	   				var respmensaje = resp;
 	   				//alert(resp);
 		   			$("#msg_login").css('display', 'block', 'important');
 		   			$("#msg_login").attr('class','alert alert-danger');
-					$("#msg_login").html("Usuario ó Contraseña Incorrectos <button typed='button' onClick='fnOcultar();' class='close'>&times;</button>");
+					$("#msg_login").html(respmensaje.concat("<button typed='button' onClick='fnOcultar();' class='close'>&times;</button>"));
 					$("#msg_login").css({'margin-bottom':'-12px','margin-top':'10px'});
 					$("#contenbotton").html("Entrar");
 		   			$("#login").removeAttr('disabled');
@@ -54,7 +55,7 @@ $('#use_nam, #use_pas').keypress(function (e) {
 		   		};
 		   },
 
-		   error: function(jqXHR,estado,error){
+		   error: function(jqXHR,estado,error){ //colocar un case
 		   			if (estado=='timeout'){
 		   			$("#msg_login").css('display', 'block', 'important');
 			 		$("#msg_login").html("Tiempo de Espera Agotado <button typed='button' onClick='fnOcultar();' class='close'>&times;</button>");
