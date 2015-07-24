@@ -9,6 +9,7 @@ $__debug = $_debug;
 ################################################
 
 
+####OPCIONES PARA CONEXION
 
 #DONDE SE HOSPEDA LA BASE DE DATOS
 $_hostname = "localhost";
@@ -28,12 +29,22 @@ $_password = "1NfometriK5102";
 #DRIVER USADO PARA LA CONEXIÓN.
 $_driver = 'postgres'; //oracle , mysql , mysqlite mas drivers en /dbal/drivers
 
-#SI ESTA OPCIÓN ESTA TRUE, REALIZA UN DEBUG AL SISTEMA
+#LA IP PUBLICA EN DONDE SE ALOJA EL PROYECTO
+$_urlproyc = "http://localhost/orfeounity/";
+
+
+
+##OPCIONES PARA DESARROLLADORES 
+
+#SI ESTA OPCIÓN ESTA TRUE O ACTIVA , REALIZA UN DEBUG AL SISTEMA
 $_debug = false;
 
-#LA IP PUBLICA EN DONDE SE ALOJA EL PROYECTO
-$urlproyc = "http://localhost/orfeounity/";
+#SI ESTA OPCION ESTA TRUE O ACTIVA , MUESTRA EL DEBUG DE UNICAMENTE LAS FUNCIONES QUE FALLAN EN UNA CONSULTA PARAMETRIZADA.
+$_error_debug = true; // ($response[2]) en el pro_conect.php
 
+
+#SI ESTA OPCION ESTA TRUE O ACTIVA , ESCRIBE EN UN LOG DE ERRORES EL SQL QUE FALLÓ
+$_write_error_log_sql = false;
 
 #PROCEDIMIENTOS
 

@@ -3,7 +3,6 @@ ini_set("display_errors", 1);
 require 'config_ini.php';
 
 session_start();
-
 if (!isset($_SESSION['id'])){ ?>
 <?php 
   require $_SERVER['DOCUMENT_ROOT']."/$name_proyect/form/for_login/for_login.php";
@@ -12,7 +11,7 @@ if (!isset($_SESSION['id'])){ ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  
+
   <!-- start: Meta -->
   <meta charset="utf-8">
   <title>Orfeo Unity</title>
@@ -74,11 +73,13 @@ if (!isset($_SESSION['id'])){ ?>
             
       <!-- start: Content / col-lg-10 col-sm-11 / col-lg-10 col-sm-11 sidebar-minified-->
       <div id="content" style ='padding-top:0px;' class="col-lg-10 col-sm-11 sidebar-minified">
-      
-      
+
+      <?php // INCLUYO JQUERY PARA LOS MODULOS ?>
+      <script src="/<?=$name_proyect?>/style/js/jquery-2.1.0.min.js"></script>
+
       <div class="row">
         <?php // dashboard ?>
-          <?php if(!isset($_GET['url_module'])){$_GET['url_module']='trays';} ?>
+          <?php if(!isset($_GET['url_module'])){$_GET['url_module']='tray';} ?>
           <?php  #require $_SERVER['DOCUMENT_ROOT']."/$name_proyect/module/mod_contact_form/form/for_config_contact_form.php";
            require $_SERVER['DOCUMENT_ROOT']."/$name_proyect/module/mod_".$_GET['url_module']."/index.php";?> 
       </div><!--/row--> 
@@ -98,8 +99,7 @@ if (!isset($_SESSION['id'])){ ?>
   <?php require $_SERVER['DOCUMENT_ROOT']."/$name_proyect/form/for_footer/for_footer.php";?>
   </footer>
     
-    <script src="/<?=$name_proyect?>/style/js/jquery-2.1.0.min.js"></script>
-    <script type="text/javascript">
+  <script type="text/javascript">
       window.jQuery || document.write("<script src='/<?=$name_proyect?>/style/js/jquery-2.1.0.min.js'>"+"<"+"/script>");
     </script>
   <script src="/<?=$name_proyect?>/style/js/jquery-migrate-1.2.1.min.js"></script>
@@ -159,6 +159,7 @@ if (!isset($_SESSION['id'])){ ?>
   <script src="/<?=$name_proyect?>/style/js/pages/index.js"></script>
   <!-- Le coloco el nombre al proyecto-->
   <script> var name_proyect = "<?php echo $name_proyect;?>" ;</script>
+
 </body>
 </html>
 <?php } ?>

@@ -12,14 +12,24 @@ RewriteCond %{SCRIPT_FILENAME} !-f
 #===================LOGIN==================
 #RewriteRule ^user_login$ /orfeounity/form/for_login/for_login.php [L]
 
-
+#url_module -> Nombre del Modulo.
+#option -> Opción del modulo. listar, editar, eliminar.
+#param1 -> parametro usado para un identificador unico , radicado , cedula , id .
+#page - > pagina actual.
+#size - > Tamaño de la pagina
+#order - > 1 - ASC 2 - DESC
+#by - > por donde se debe ordenar 
 
 
 #==================MODULES================== 
 #RewriteRule ^([^/]*)$ /orfeounity/form/for_index/for_index.php?url_module=$1 [L] 
 RewriteRule ^([^/]*)$ /orfeounity/index.php?url_module=$1 [L] 
-RewriteRule ^([^/]*)/0/([^/]*)$ /orfeounity/index.php?url_module=$1&option=$2 [L]
-RewriteRule ^([^/]*)/1/([^/]*)/([0-9]*)$ /orfeounity/index.php?url_module=$1&option=$2&item_id=$3 [L]
+RewriteRule ^([^/]*)/sgd/([^/]*)$ /orfeounity/index.php?url_module=$1&option=$2 [L]
+RewriteRule ^([^/]*)/sgd/([^/]*)/([^/]*)$ /orfeounity/index.php?url_module=$1&option=$2&param1=$3 [L]
+
+#USADO PARA UNA TABLA
+RewriteRule ^([^/]*)/sgd/([^/]*)/lst/([0-9]*)/([0-9]*)/([1-2])/([0-9]*)$ /orfeounity/index.php?url_module=$1&option=$2&page=$3&size=$4&order=$5&by=$6 [L]
+
 
 </IfModule>
 

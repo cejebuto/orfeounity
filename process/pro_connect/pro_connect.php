@@ -22,6 +22,9 @@ function connecttodb($name_proyect,$_debug) {
     #construimos la respuesta
     $response[0] = $db;
     $response[1] = $connectdb;
+
+    #traemos parametros de configuracion desarrollador.
+    $response[2] = $_error_debug; 
         
 return $response; 
 }
