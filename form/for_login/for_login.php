@@ -4,7 +4,7 @@
 	
 	<!-- start: Meta -->
 	<meta charset="utf-8">
-  <script src="/<?=$name_proyect?>/ajs/jquery.js"></script>
+  <script src="/<?=$name_proyect?>/js/jquery.js"></script>
 
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -69,6 +69,6 @@ document.getElementById("use_nam").focus();
   <!-- Le coloco el nombre al proyecto-->
    <script> var name_proyect = "<?php echo $name_proyect;?>" ;</script>
    
-   <script src="/<?=$name_proyect?>/ajs/js_login/js_login.js"></script>
+   <script src="/<?=$name_proyect?>/js/js_login/js_login.js"></script>
 </body>
 </html>
