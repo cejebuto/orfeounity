@@ -19,7 +19,7 @@ $_Msg_response = $db;
     #Bloque para la REGULAR PAGINATION
     $Page_url = "/$name_proyect/".$_GET['url_module']."/sgd/".$_GET['option']."/lst/";
     $Page = intval($_GET['page']); //Page
-    $SizePage = intval($_GET['size']); //Limit
+    $SizePage = intval($_GET['size']); if ($SizePage == 0){$SizePage=10;}//Limit
     $Order = intval($_GET['order']); //Orden
     $By = intval($_GET['by']); //By - por que numero se ordena
     if ($Page<=1){$StartPage = 0;$Page = 1;} else {$StartPage = ($Page - 1) * $SizePage;}
@@ -69,10 +69,10 @@ if (!$rs){
             $_Msg_response = 'true';
 
             //SE USA ESTE BLOQUE PARA PAGINNAR SI SE REQUIERE -----
-            $rs_paginate = $db->Execute($query);
-            $num_row_forpage = $rs_paginate->RecordCount();
+            $rs_paginate = $db->Execute($query); //CAMBIAR POR UN SELECT COUNT
+            $num_row_total = $rs_paginate->RecordCount();
             //calculo el total de páginas
-            $Total_pages = ceil($num_row_forpage / $SizePage);
+            $Total_pages = ceil($num_row_total / $SizePage);
             //--------------------
 
         } else{

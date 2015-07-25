@@ -24,7 +24,6 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/module/mod_".$_GET['u
   </div>
   <div class="col-lg-1">
   	<select id="selectdisplatrownum" name "" class="form-control" onchange="location = this.options[this.selectedIndex].value;" title="Numero de registros a mostrar">
-  		<option value = '<?=$Page_url.'1/5/'.$Order.'/'.$By?>' <?php if($SizePage == 5){echo " selected";} ?> >5</option>
   		<option value = '<?=$Page_url.'1/10/'.$Order.'/'.$By?>' <?php if($SizePage == 10){echo " selected";} ?> >10</option>
 		<option value = '<?=$Page_url.'1/25/'.$Order.'/'.$By?>' <?php if($SizePage == 25){echo " selected";} ?> >25</option>
 		<option value = '<?=$Page_url.'1/50/'.$Order.'/'.$By?>' <?php if($SizePage == 50){echo " selected";} ?> >50</option>
@@ -116,8 +115,8 @@ if ($Total_pages > 1) { ?>
      //Traigo los datos del mensaje.
      	$page_ini = $StartPage+1;
      	$page_fin = $StartPage+$SizePage;
-     	if($page_fin>$num_row_forpage){
-     		$page_fin = $num_row_forpage;}
+     	if($page_fin>$num_row_total){
+     		$page_fin = $num_row_total;}
 	?>
 <!-- fin de Paginación -->
 
@@ -130,7 +129,7 @@ if ($Total_pages > 1) { ?>
 	  </ul>
 <?php } ?>
 
-<div class="alert alert-info" style = "padding:0px;margin-top:-18px;"><font style="font-size:10px">Mostrando de <?=$page_ini?> a <?=$page_fin?> Registros de, <?=$num_row_forpage?> en total</font></div>
+<div class="alert alert-info" style = "padding:0px;margin-top:-18px;"><font style="font-size:10px">Mostrando de <?=$page_ini?> a <?=$page_fin?> Registros de, <?=$num_row_total?> en total</font></div>
 </div>
 </div>
 

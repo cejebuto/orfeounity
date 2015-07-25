@@ -67,8 +67,10 @@ if (!isset($_SESSION['id'])){ ?>
           <?php require $_SERVER['DOCUMENT_ROOT']."/$name_proyect/form/for_menu/for_menu.php";?>
           </ul>
         </div>    <!-- main menu / full visible-md visible-lg / col-lg-10 col-sm-11 sidebar-minified minified //// fa fa-angle-double-left / fa fa-angle-double-right-->
-                  <a href="#" id="main-menu-min" class="col-lg-10 col-sm-11 sidebar-minified minified"><i class="fa fa-angle-double-right"></i></a>
-              </div>
+              
+      <a href="#" id="main-menu-min" class="col-lg-10 col-sm-11 sidebar-minified minified"><i class="fa fa-angle-double-right"></i></a>
+      
+      </div>
       <!-- end: Main Menu -->
             
       <!-- start: Content / col-lg-10 col-sm-11 / col-lg-10 col-sm-11 sidebar-minified-->
@@ -79,7 +81,16 @@ if (!isset($_SESSION['id'])){ ?>
 
       <div class="row">
         <?php // dashboard ?>
-          <?php if(!isset($_GET['url_module'])){$_GET['url_module']='tray';} ?>
+        <?php 
+        /*
+          COMPROBAR SI DEBE CAMBIAR LA CONTRASEÑA
+          COMPROBAR CUAL ES EL MODULO POR DEFECTO DEL USUARIO
+          COMPROBAR LOS PERMISOS DEL MODULO AL QUE DESEA ACCEDER
+
+        */
+        ?>
+
+          <?php if(!isset($_GET['url_module'])){$_GET['url_module']='user';} ?>
           <?php  #require $_SERVER['DOCUMENT_ROOT']."/$name_proyect/module/mod_contact_form/form/for_config_contact_form.php";
            require $_SERVER['DOCUMENT_ROOT']."/$name_proyect/module/mod_".$_GET['url_module']."/index.php";?> 
       </div><!--/row--> 
