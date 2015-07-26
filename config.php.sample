@@ -24,7 +24,7 @@ $_database = "orfeounity";
 $_username = "postgres";
 
 #CONTRASEÑA DE LA BASE DE DATOS
-$_password = "1NfometriK5102";
+$_password = "123";
 
 #DRIVER USADO PARA LA CONEXIÓN.
 $_driver = 'postgres'; //oracle , mysql , mysqlite mas drivers en /dbal/drivers
