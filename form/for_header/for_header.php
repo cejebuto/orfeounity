@@ -180,7 +180,7 @@
 							<!--<li><a href="#"><i class="fa fa-user"></i> Perfil</a></li>
 							<li><a href="#"><i class="fa fa-cog"></i> Configuraciones</a></li>
 							<li><a href="#"><i class="fa fa-envelope"></i> Mensajes</a></li>-->
-							<li><a href="/<?=$name_proyect?>/sql/sql_login/sql_logout.php"><i class="fa fa-sign-out"></i> Salir </a></li>
+							<li><a href="/<?=$name_proyect?>/control/logout"><i class="fa fa-sign-out"></i> Salir </a></li>
 						</ul>
 					</li>
 					<!-- end: User Dropdown -->

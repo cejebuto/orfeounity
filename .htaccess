@@ -11,7 +11,10 @@ RewriteCond %{SCRIPT_FILENAME} !-f
 
 #===================LOGIN==================
 #RewriteRule ^user_login$ /orfeounity/form/for_login/for_login.php [L]
+ 
 
+
+#===================DOCUMENTACION MODULO ==================
 #url_module -> Nombre del Modulo.
 #option -> Opción del modulo. listar, editar, eliminar.
 #param1 -> parametro usado para un identificador unico , radicado , cedula , id .
@@ -21,13 +24,20 @@ RewriteCond %{SCRIPT_FILENAME} !-f
 #by - > por donde se debe ordenar 
 
 
-#==================MODULES================== 
+#==================MODULES==================
 RewriteRule ^([^/]*)$ /orfeounity/index.php?url_module=$1 [L] 
 RewriteRule ^([^/]*)/sgd/([^/]*)$ /orfeounity/index.php?url_module=$1&option=$2 [L]
 RewriteRule ^([^/]*)/sgd/([^/]*)/([^/]*)$ /orfeounity/index.php?url_module=$1&option=$2&param1=$3 [L]
 
+
 #USADO PARA UNA TABLA
-RewriteRule ^([^/]*)/sgd/([^/]*)/lst/([0-9]*)/([0-9]*)/([0-2])/([0-9]*)$ /orfeounity/index.php?url_module=$1&option=$2&page=$3&size=$4&order=$5&by=$6 [L]
+RewriteRule ^([^/]*)/sgd/([^/]*)/lst/([0-9]*)/([0-9]*)/([1-2])/([0-9]*)$ /orfeounity/index.php?url_module=$1&option=$2&page=$3&size=$4&order=$5&by=$6 [L]
+
+
+
+
+#==================LOGOUT==================
+RewriteRule ^control/logout$ /orfeounity/process/pro_logout/pro_logout.php [L]
 
 
 </IfModule>

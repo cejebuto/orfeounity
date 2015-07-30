@@ -79,7 +79,7 @@ if (!isset($_SESSION['id'])){ ?>
       <?php // INCLUYO JQUERY PARA LOS MODULOS ?>
       <script src="/<?=$name_proyect?>/style/js/jquery-2.1.0.min.js"></script>
 
-      <div class="row">
+      <div id= "id_list" class="row">
         <?php // dashboard ?>
         <?php 
         /*

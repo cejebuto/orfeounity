@@ -1,6 +1,7 @@
 <?php 
 #LISTO TODOS LOS USUARIOS TENIENDO ENCUENTA LAS OPCIONES
 require_once $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/module/mod_".$_GET['url_module']."/sql/sql_list_user.php";
+//echo "--".$Page_url_order; exit;
 ?>
  
 <div class="box">
@@ -17,7 +18,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/module/mod_".$_GET['u
   <div class="col-lg-3">
   	<div class="input-group">
 	<span class="input-group-addon"><i class="fa fa-search"></i></span>
-		<input type="text" class="form-control" placeholder="Filtrar">
+		<input type="text" class="form-control" placeholder="Busqueda Rapida">
 	</div>
   </div><!-- /.col-lg-6 -->
   <div class="col-lg-8">
@@ -34,23 +35,35 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/module/mod_".$_GET['u
   <?php /* <div class="col-lg-3">
   </div><!-- /.col-lg-6 -->  */ ?>
 </div><!-- /.row -->
-
 </div>
-<div class="box-content" style="margin-bottom: -80px" >
-	<table class="table table-bordered table-hover">
-	  <thead>
-		  <tr>
-			  <th id="order_1" onclick="comprobar_clase" class ="sorting_desc">Id</th>
-			  <th id="order_2" class ="sorting">Fecha de Creación</th>
-			  <th id="order_3" class ="sorting">Usuario</th>
-			  <th id="order_4" class ="sorting">Nombre</th>
-			  <th id="order_5" class ="sorting">Identificación</th>
-			  <th id="order_6" class ="sorting">Email</th>
-			  <th id="order_7" class ="sorting">Estado</th>
+<div  id "list_user"  class="box-content" style="margin-bottom: -80px" >
+	<table  class="table table-bordered table-hover">
+	  <thead id = "list_user">
+		  <tr> 
+		  	<?php 
+		  		if (!$_GET['order']){
+		  			$class_sorting = "sorting_desc"; //2
+		  		}else if ($_GET['order']==2){
+		  				$class_sorting = "sorting_desc"; //2
+		  			}else if ($_GET['order']==1){
+						$class_sorting = "sorting_asc"; //1
+		  		}
+				if (!$_GET['by']){
+					$_GET['by'] = 1;
+				}
+		  		$_id = $_GET['by']; 
+			?>
+			  <th id="order_1" onclick="set_order(1,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 1){echo $class_sorting;} ?> " >Id</th>
+			  <th id="order_2" onclick="set_order(2,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 2){echo $class_sorting;} ?> ">Fecha de Creación</th>
+			  <th id="order_3" onclick="set_order(3,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 3){echo $class_sorting;} ?> ">Usuario</th>
+			  <th id="order_4" onclick="set_order(4,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 4){echo $class_sorting;} ?> ">Nombre</th>
+			  <th id="order_5" onclick="set_order(5,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 5){echo $class_sorting;} ?> ">Identificación</th>
+			  <th id="order_6" onclick="set_order(6,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 6){echo $class_sorting;} ?> ">Email</th>
+			  <th id="order_7" onclick="set_order(7,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 7){echo $class_sorting;} ?> ">Estado</th>
 		  </tr>
 	  </thead>   
 	  <tbody>
-	<?php //LLENAMOS LOS REGISTROS DE LOS USUARIOS   
+	<?php //LLENAMOS LOS REGISTROS DE LOS USUARIOS   $SizePage,$StartPage
 	if ($_Msg_response == 'true'){ ?>
 		<?php while(!$rs->EOF){ ?>
 	  	<tr onclick="document.location = '#';" style="cursor:pointer;">
@@ -84,41 +97,14 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/module/mod_".$_GET['u
 	  </tbody>
   </table>            
 
+
 <!-- Paginación -->
-<?php 
-//Si Requiere Paginar
-if ($Total_pages > 1) { ?>
-	<ul class="pagination">
-   	<? if ($Page != 1){ ?>
-       <li><a href="<?=$Page_url.($Page-1).'/'.$SizePage.'/'.$Order.'/'.$By?>" title = "Anterior "><i class="fa fa-arrow-left"></i></a></li>
-      <?php  }else{ ?>
-		<li><a href="#" title = "No hay Anterior "><i class="fa fa-arrow-left" style="color: gray;" ></i></a></li>
-      <? }
-    for ($i=1;$i<=$Total_pages;$i++) {
-         if ($Page == $i){ 
-			//si muestro el índice de la página actual, no coloco enlace ?>
-            <li class="active"><a href="#"><?=$Page?></a></li>
-         <? }else{
-            //si el índice no corresponde con la página mostrada actualmente,
-            //coloco el enlace para ir a esa página  ?>
-            <li><a href="<?=$Page_url.$i.'/'.$SizePage.'/'.$Order.'/'.$By?>"><?=$i?></a></li>
-        <? }
-      }
-      if ($Page != $Total_pages){ ?>
-         <li><a href="<?=$Page_url.($Page+1).'/'.$SizePage.'/'.$Order.'/'.$By?>" title = "Siguiente "><i class="fa fa-arrow-right"></i></a></li>
-     <? }else{ ?>
-		<li><a href="#" title = "No hay Siguiente "><i class="fa fa-arrow-right" style="color: gray;" ></i></a></li>
-     <? } ?>
-     </ul>
-<? } ?>     
-     <?php 
-     //Traigo los datos del mensaje.
-     	$page_ini = $StartPage+1;
-     	$page_fin = $StartPage+$SizePage;
-     	if($page_fin>$num_row_total){
-     		$page_fin = $num_row_total;}
-	?>
+<?php
+#LISTO TODOS LOS USUARIOS TENIENDO ENCUENTA LAS OPCIONES
+require $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/process/pro_pagination/pro_pagination.php";
+?>
 <!-- fin de Paginación -->
+
 
 <?php if ($_Msg_response == 'true'){ ?>
 <?php //si requiere exportar ?>
@@ -135,9 +121,18 @@ if ($Total_pages > 1) { ?>
 
 <script type="text/javascript">
   $( document ).ready(function() {
+
+	//Incluimos el script de preloader
+	$.getScript( "/<?=$name_proyect?>/module/mod_<?=$_GET['url_module']?>/js/loadingoverlay.js" )
+  		.done(function( script, textStatus ) { console.log('%c loadingoverlay.js OK ', 'color: #088A29'); })
+  		.fail(function( jqxhr, settings, exception ) {console.log('%c No se pudo cargar -> loadingoverlay.js', 'background: #222; color: #ffffff');});
+
+
   	//Incluimos el script que permite la paginación.
 	$.getScript( "/<?=$name_proyect?>/module/mod_<?=$_GET['url_module']?>/js/js_paginator_ajax.js" )
   		.done(function( script, textStatus ) { console.log('%c js_paginator_ajax.js OK ', 'color: #088A29'); })
   		.fail(function( jqxhr, settings, exception ) {console.log('%c No se pudo cargar -> js_paginator_ajax.js', 'background: #222; color: #ffffff');});
+
+	
   	});
 </script>
