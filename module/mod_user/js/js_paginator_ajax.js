@@ -1,7 +1,10 @@
 
 //Funcion para determinar en que pagina se ecuentra el listado
 function set_page(Page_url,Page,SizePage,Order,By) {
+	
 	$("#id_list").LoadingOverlay("show");
+     url = Page_url+Page+"/"+SizePage+"/"+Order+"/"+By;
+     $(location).attr('href',url);
      
 }
 

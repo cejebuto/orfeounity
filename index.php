@@ -106,10 +106,12 @@ if (!isset($_SESSION['id'])){ ?>
 
   <div class="clearfix"></div>
   
+  <?php  /*
   <footer>
   <?php require $_SERVER['DOCUMENT_ROOT']."/$name_proyect/form/for_footer/for_footer.php";?>
   </footer>
-    
+    */ ?>
+
   <script type="text/javascript">
       window.jQuery || document.write("<script src='/<?=$name_proyect?>/style/js/jquery-2.1.0.min.js'>"+"<"+"/script>");
     </script>

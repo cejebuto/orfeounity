@@ -24,7 +24,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/module/mod_".$_GET['u
   <div class="col-lg-8">
   </div>
   <div class="col-lg-1">
-  	<select id="selectdisplatrownum" name "" class="form-control" onchange="location = this.options[this.selectedIndex].value;" title="Numero de registros a mostrar">
+  	<select id="selectdisplatrownum" name "" class="form-control" onchange='$("#id_list").LoadingOverlay("show"); location = this.options[this.selectedIndex].value;' title="Numero de registros a mostrar">
   		<option value = '<?=$Page_url.'1/10/'.$Order.'/'.$By?>' <?php if($SizePage == 10){echo " selected";} ?> >10</option>
 		<option value = '<?=$Page_url.'1/25/'.$Order.'/'.$By?>' <?php if($SizePage == 25){echo " selected";} ?> >25</option>
 		<option value = '<?=$Page_url.'1/50/'.$Order.'/'.$By?>' <?php if($SizePage == 50){echo " selected";} ?> >50</option>
@@ -32,7 +32,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/module/mod_".$_GET['u
 		<option value = '<?=$Page_url.'1/200/'.$Order.'/'.$By?>' <?php if($SizePage == 200){echo " selected";} ?> >200</option>
   	</select>
   </div>
-  <?php /* <div class="col-lg-3">
+  <?php /* <div class="col-lg-3"> 
   </div><!-- /.col-lg-6 -->  */ ?>
 </div><!-- /.row -->
 </div>

@@ -3,7 +3,7 @@
 if ($Total_pages > 1) { ?>
 	<ul class="pagination">
    	<? if ($Page != 1){ ?>
-       <li><a href="<?=$Page_url.($Page-1).'/'.$SizePage.'/'.$Order.'/'.$By?>" title = "Anterior "><i class="fa fa-arrow-left"></i></a></li>
+    <li><a  style="cursor:pointer;" onclick="set_page('<?=$Page_url?>','<?=$Page-1?>','<?=$SizePage?>','<?=$Order?>','<?=$By?>')" title = "Anterior "><i class="fa fa-arrow-left"></i></a></li>
       <?php  }else{ ?>
 		<li><a href="#" title = "No hay Anterior "><i class="fa fa-arrow-left" style="color: gray;" ></i></a></li>
       <? }
@@ -14,11 +14,14 @@ if ($Total_pages > 1) { ?>
          <? }else{
             //si el índice no corresponde con la página mostrada actualmente,
             //coloco el enlace para ir a esa página  ?>
-            <li><a href="<?=$Page_url.$i.'/'.$SizePage.'/'.$Order.'/'.$By?>"><?=$i?></a></li>
+            <li><a  style="cursor:pointer;" onclick="set_page('<?=$Page_url?>','<?=$i?>','<?=$SizePage?>','<?=$Order?>','<?=$By?>')">
+            <?=$i?></a></li>
         <? }
       }
       if ($Page != $Total_pages){ ?>
-         <li><a href="<?=$Page_url.($Page+1).'/'.$SizePage.'/'.$Order.'/'.$By?>" title = "Siguiente "><i class="fa fa-arrow-right"></i></a></li>
+
+        <li><a  style="cursor:pointer;" onclick="set_page('<?=$Page_url?>','<?=$Page+1?>','<?=$SizePage?>','<?=$Order?>','<?=$By?>')" title = "Siguiente "><i class="fa fa-arrow-right"></i></a></li>
+
      <? }else{ ?>
 		<li><a href="#" title = "No hay Siguiente "><i class="fa fa-arrow-right" style="color: gray;" ></i></a></li>
      <? } ?>
