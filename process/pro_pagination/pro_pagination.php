@@ -26,7 +26,7 @@ if ($Total_pages > 1) { ?>
 		<li><a href="#" title = "No hay Siguiente "><i class="fa fa-arrow-right" style="color: gray;" ></i></a></li>
      <? } ?>
      </ul>
-<? } ?>     
+<? $_show_messagge = 'true'; } ?>     
      <?php 
      //Traigo los datos del mensaje.
      	$page_ini = $StartPage+1;

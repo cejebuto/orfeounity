@@ -25,7 +25,11 @@ $_Msg_response = $db;
     #INCLUYO EL PROCESO PARA PERMITIR PAGINAR EN LA CONSULTA
     require $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/process/pro_pagination/pro_sql_pagination.php";
 
-    
+    #INCLUYO FUNCION PARA LIMPIAR LAS VARIABLES
+    require $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/function/fun_string/fun_clean_string.php";
+
+$data = strtoupper(clean_string($_POST['search_fast']));
+
 //Query para traer los usuarios.
 $query = "SELECT  
     u.use_id,
@@ -39,6 +43,11 @@ FROM
     sgd_user u 
     LEFT JOIN sgd_personal_profile pp
     ON u.use_id = pp.use_id
+WHERE 
+    upper(u.use_nam) like '%".$data."%' 
+    or upper(pp.per_pro_nam) like '%".$data."%' 
+    or upper(pp.per_pro_sur) like '%".$data."%' 
+    or upper(pp.per_pro_ema) like '%".$data."%' 
 ORDER BY ".$By." ".$_Order."
 ";
 

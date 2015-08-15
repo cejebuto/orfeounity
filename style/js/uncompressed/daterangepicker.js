@@ -36,8 +36,8 @@
         this.separator = ' - ';
 
         this.locale = {
-            applyLabel: 'Apply',
-            cancelLabel: 'Cancel',
+            applyLabel: '<i class="fa fa-check"></i>',
+            cancelLabel: '<i class="fa fa-ban"></i>',
             fromLabel: 'From',
             toLabel: 'To',
             weekLabel: 'W',

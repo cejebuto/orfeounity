@@ -37,6 +37,14 @@ $(document).ready(function(){
 	
 	/* ---------- DateRangepicker for Bootstrap ---------- */
 	$('#daterange').daterangepicker();
+	$('.rangedatepiker').daterangepicker();
+//	$('.rangedatepiker').daterangepicker({dateFormat: 'yy-mm-dd'});
+	$('.rangedatepiker').daterangepicker(
+	{
+	    locale: {
+	      format: 'YYYY-MM-DD'
+	    }
+	}); 
 	
 	/* ---------- Bootstrap Wysiwig ---------- */
 	$('.editor').wysiwyg();

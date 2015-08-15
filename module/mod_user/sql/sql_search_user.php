@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 ini_set("display_errors", 1); 
 
@@ -16,7 +17,7 @@ $_Msg_response = $db;
 //Si existe la conexión, procedemos a validar.
 }else{
 
-    #Bloque para parametrizar la paginación por defecto.
+/*    #Bloque para parametrizar la paginación por defecto.
     if(!$_GET['page']){$_GET['page']=1;}
     if(!$_GET['size']){$_GET['size']=10;}
     if(!$_GET['order']){$_GET['order']=2;}
@@ -25,7 +26,11 @@ $_Msg_response = $db;
     #INCLUYO EL PROCESO PARA PERMITIR PAGINAR EN LA CONSULTA
     require $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/process/pro_pagination/pro_sql_pagination.php";
 
-    
+    #INCLUYO FUNCION PARA LIMPIAR LAS VARIABLES
+    require $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/function/fun_string/fun_clean_string.php";
+
+$data = strtoupper(clean_string($_POST['search_fast']));  LIKE CASE WHEN */
+
 //Query para traer los usuarios.
 $query = "SELECT  
     u.use_id,
@@ -37,16 +42,42 @@ $query = "SELECT
     u.use_est
 FROM
     sgd_user u 
-    LEFT JOIN sgd_personal_profile pp
+    RIGHT JOIN sgd_personal_profile pp
     ON u.use_id = pp.use_id
-ORDER BY ".$By." ".$_Order."
+WHERE 
+ upper(u.use_nam) LIKE CASE WHEN '".$ck_use_nam."' = 'on' THEN upper(u.use_nam) ELSE '%".$use_nam."%' END
+ AND upper(pp.per_pro_id) LIKE CASE WHEN '".$ck_per_pro_id."' = 'on' THEN upper(pp.per_pro_id) ELSE '%".$per_pro_id."%' END 
+ AND upper(pp.per_pro_nam) LIKE CASE WHEN '".$ck_per_pro_nam."' = 'on' THEN upper(pp.per_pro_nam) ELSE '%".$per_pro_nam."%' END
+ AND upper(pp.per_pro_sur) LIKE CASE WHEN '".$ck_per_pro_sur."' = 'on' THEN upper(pp.per_pro_sur) ELSE '%".$per_pro_sur."%' END
+ AND upper(pp.per_pro_ema) LIKE CASE WHEN '".$ck_per_pro_ema."' = 'on' THEN upper(pp.per_pro_ema) ELSE '%".$per_pro_ema."%' END
+
+ORDER BY 3 DESC
 ";
 
-//echo "<pre>$query</pre>"; exit;
+echo "$query"; exit;
+
+#Limpio las variables
+/*
+upper(pp.per_pro_id) LIKE CASE WHEN '".$ck_per_pro_id."' = 'on' THEN upper(pp.per_pro_id) ELSE '%".$per_pro_id."%' END
+ upper(pp.per_pro_nam) LIKE CASE WHEN '".$ck_per_pro_nam."' = 'on' THEN upper(pp.per_pro_nam) ELSE '%".$per_pro_nam."%' END
+ upper(pp.per_pro_sur) LIKE CASE WHEN '".$ck_per_pro_sur."' = 'on' THEN upper(pp.per_pro_sur) ELSE '%".$per_pro_sur."%' END
+ upper(pp.per_pro_ema) LIKE CASE WHEN '".$ck_per_pro_ema."' = 'on' THEN upper(pp.per_pro_ema) ELSE '%".$per_pro_ema."%' END
+
+*/
+
+
+
+$a = "AND  pro_num_ide LIKE CASE WHEN ".$_SESSION['ind_pro_num_ide']." = 0 Then pro_num_ide ELSE '%".$_SESSION['pro_num_ide']."%'  END 
+    upper(u.use_nam) like '%".$data."%' 
+    or upper(pp.per_pro_nam) like '%".$data."%' 
+    or upper(pp.per_pro_sur) like '%".$data."%' 
+    or upper(pp.per_pro_ema) like '%".$data."%' 
+
+    ";
 
  //Ejecuto la consulta
- $rs = $db->SelectLimit($query,$SizePage,$StartPage);  //APLICANDO LIMITES
- //$rs = $db->Execute($query);  // NORMAL
+ //$rs = $db->SelectLimit($query,$SizePage,$StartPage);  //APLICANDO LIMITES
+ $rs = $db->Execute($query);  // NORMAL
 
 //Compruebo la consulta
 if (!$rs){
@@ -54,19 +85,19 @@ if (!$rs){
 	//Compruebo si tengo que mostrar el debug ó el mensaje, por la variable $_error_debug del config
 	if ($_error_debug == true){
 		$db->debug = true;
-		//$rs = $db->Execute($query);
-        $rs = $db->SelectLimit($query,$SizePage,$StartPage);
+		$rs = $db->Execute($query);
+        //$rs = $db->SelectLimit($query,$SizePage,$StartPage);
 		$db->debug = false;
 	}else{
         $_class_msg = "danger";
 		$_Msg_response = "Ocurrió un error procesando los datos, Por favor contacte con el administrador del sistema ; ERR:BC01";
 	}
-
+exit;
 }else{
     //Si se construyó correctamente la consulta
 
     //Cuento las Filas.
-    $num_row_query = $rs->RecordCount();
+echo    $num_row_query = $rs->RecordCount(); exit;
 
     if( $num_row_query >= 1 ) { // Si hay un solo registro procedo a ingresar al aplicativo
             $_Msg_response = 'true';

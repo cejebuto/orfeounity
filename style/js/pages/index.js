@@ -309,6 +309,19 @@ $(document).ready(function(){
 		
 	/* ---------- DateRangepicker for Bootstrap ---------- */
 	$('#daterange').daterangepicker();
+	$('.rangedatepiker').daterangepicker();
+	//$('.rangedatepiker').daterangepicker({dateFormat: 'yy-mm-dd'});
+	$('.rangedatepiker').daterangepicker(
+	{
+	    locale: {
+	      format: 'YYYY-MM-DD'
+	    }
+	}); 
+
+
+
+
+
 	
 	/* ---------- Placeholder Fix for IE ---------- */
 	$('input, textarea').placeholder();
