@@ -1479,6 +1479,114 @@ if (!defined('_ADODB_LAYER')) {
 		return $rs;
 	}
 
+/******************************************************/
+	function SelectLimitAssoc($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0) {
+		if ($this->hasTop && $nrows > 0) {
+			// suggested by Reinhard Balling. Access requires top after distinct
+			// Informix requires first before distinct - F Riosa
+			$ismssql = (strpos($this->databaseType,'mssql') !== false);
+			if ($ismssql) {
+				$isaccess = false;
+			} else {
+				$isaccess = (strpos($this->databaseType,'access') !== false);
+			}
+
+			if ($offset <= 0) {
+					// access includes ties in result
+					if ($isaccess) {
+						$sql = preg_replace(
+						'/(^\s*select\s+(distinctrow|distinct)?)/i','\\1 '.$this->hasTop.' '.((integer)$nrows).' ',$sql);
+
+						if ($secs2cache != 0) {
+							$ret = $this->CacheExecute($secs2cache, $sql,$inputarr);
+						} else {
+							$ret = $this->Execute($sql,$inputarr);
+						}
+						return $ret; // PHP5 fix
+					} else if ($ismssql){
+						$sql = preg_replace(
+						'/(^\s*select\s+(distinctrow|distinct)?)/i','\\1 '.$this->hasTop.' '.((integer)$nrows).' ',$sql);
+					} else {
+						$sql = preg_replace(
+						'/(^\s*select\s)/i','\\1 '.$this->hasTop.' '.((integer)$nrows).' ',$sql);
+					}
+			} else {
+				$nn = $nrows + $offset;
+				if ($isaccess || $ismssql) {
+					$sql = preg_replace(
+					'/(^\s*select\s+(distinctrow|distinct)?)/i','\\1 '.$this->hasTop.' '.$nn.' ',$sql);
+				} else {
+					$sql = preg_replace(
+					'/(^\s*select\s)/i','\\1 '.$this->hasTop.' '.$nn.' ',$sql);
+				}
+			}
+		}
+
+		// if $offset>0, we want to skip rows, and $ADODB_COUNTRECS is set, we buffer  rows
+		// 0 to offset-1 which will be discarded anyway. So we disable $ADODB_COUNTRECS.
+		global $ADODB_COUNTRECS;
+
+		$savec = $ADODB_COUNTRECS;
+		$ADODB_COUNTRECS = false;
+
+
+		if ($secs2cache != 0) {
+			$rs = $this->CacheExecute($secs2cache,$sql,$inputarr);
+		} else {
+			$rs = $this->Execute($sql,$inputarr);
+		}
+
+
+		$ADODB_COUNTRECS = $savec;
+		if ($rs && !$rs->EOF) {
+			$rs = $this->_rs2rsAssoc($rs,$nrows,$offset);
+		}
+
+		return $rs;
+	}
+
+/**********************************************************************/
+	function &_rs2rsAssoc(&$rs,$nrows=-1,$offset=-1,$close=true) {
+		
+		if (! $rs) {
+			return false;
+		}
+		$dbtype = $rs->databaseType;
+		if (!$dbtype) {
+			$rs = $rs;  // required to prevent crashing in 4.2.1, but does not happen in 4.3.1 -- why ?
+			return $rs;
+		}
+		if (($dbtype == 'array' || $dbtype == 'csv') && $nrows == -1 && $offset == -1) {
+			$rs->MoveFirst();
+			$rs = $rs; // required to prevent crashing in 4.2.1, but does not happen in 4.3.1-- why ?
+			return $rs;
+		}
+		$flds = array();
+		for ($i=0, $max=$rs->FieldCount(); $i < $max; $i++) {
+			$flds[] = $rs->FetchField($i);
+		}
+
+		$arr = $rs->GetArrayLimit($nrows,$offset);
+		//print_r($arr); exit;
+		if ($close) {
+			$rs->Close();
+		}
+
+		/* $arrayClass = $this->arrayClass;
+
+		$rs2 = new $arrayClass();
+		$rs2->connection = $this;
+		$rs2->sql = $rs->sql;
+		$rs2->dataProvider = $this->dataProvider;
+		$rs2->InitArrayFields($arr,$flds);
+		$rs2->fetchMode = isset($rs->adodbFetchMode) ? $rs->adodbFetchMode : $rs->fetchMode;
+		//echo "->".$rs2; exit; 
+		return $rs2; */
+		return $arr;
+	}
+
+/*************************************************************************/
+
 	/**
 	* Create serializable recordset. Breaks rs link to connection.
 	*
@@ -1503,6 +1611,7 @@ if (!defined('_ADODB_LAYER')) {
 	* @return			the new recordset
 	*/
 	function &_rs2rs(&$rs,$nrows=-1,$offset=-1,$close=true) {
+
 		if (! $rs) {
 			return false;
 		}

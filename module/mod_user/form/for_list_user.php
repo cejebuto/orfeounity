@@ -1,16 +1,23 @@
 <?php 
 
-$_class_msg = "warning";
-$_Msg_response = "No se a Cargado la consulta";
+//Valores Iniciales:
+$Json_file = "pro_list_user.php";
+$Json_url = "/$name_proyect/module/mod_".$_GET['url_module']."/process/";
+
+$Page = 0; //Comenzar en la pagina uno
+$Size_page = 10; //Mostrar por defecto 10 resultados
+$Order = 2;    //1 / manera Desendente , 2 manera Asendente
+$By = 1; //Ordenar por el primer registro No.
+
 
 // Compruebo si es busqueda 
 if ($_POST['search_fast']){
 	#LISTO TODOS LOS CONSULTA RAPIDA
-	require_once $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/module/mod_".$_GET['url_module']."/sql/sql_list_user_search_fast.php";	
+	#require_once $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/module/mod_".$_GET['url_module']."/sql/sql_list_user_search_fast.php";	
 }else{
 
 	#LISTO TODOS LOS USUARIOS
-	require_once $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/module/mod_".$_GET['url_module']."/sql/sql_list_user.php";
+	#require_once $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/module/mod_".$_GET['url_module']."/sql/sql_list_user.php";
 } ?>
 
  
@@ -21,6 +28,7 @@ if ($_POST['search_fast']){
 		<!-- Busqueda avanzada, configuraciones , opciones --> 
 		<a href="/<?=$name_proyect?>/<?=$_GET['url_module']?>/sgd/search_<?=$_GET['url_module']?>" title="Búsqueda Avanzada"><i class="fa fa-search-plus" style="color: #428bca;"></i></a>
 		<a href="/<?=$name_proyect?>"><i class="fa fa-times" style="color: black;"></i></a> 
+	
 	</div>
 </div>
 <div class="box-header">
@@ -35,15 +43,17 @@ if ($_POST['search_fast']){
   </div><!-- /.col-lg-6 -->
   <div class="col-lg-8">
   </div>
+
   <div class="col-lg-1">
-  	<select id="selectdisplatrownum" name "" class="form-control" onchange='$("#id_list").LoadingOverlay("show"); location = this.options[this.selectedIndex].value;' title="Numero de registros a mostrar">
-  		<option value = '<?=$Page_url.'1/10/'.$Order.'/'.$By?>'  <?php if($SizePage == 10) {echo " selected";} ?> >10</option>
-		<option value = '<?=$Page_url.'1/25/'.$Order.'/'.$By?>'  <?php if($SizePage == 25) {echo " selected";} ?> >25</option>
-		<option value = '<?=$Page_url.'1/50/'.$Order.'/'.$By?>'  <?php if($SizePage == 50) {echo " selected";} ?> >50</option>
-		<option value = '<?=$Page_url.'1/100/'.$Order.'/'.$By?>' <?php if($SizePage == 100){echo " selected";} ?> >100</option>
-		<option value = '<?=$Page_url.'1/200/'.$Order.'/'.$By?>' <?php if($SizePage == 200){echo " selected";} ?> >200</option>
+  	<select id="selectdisplatrownum" name "" class="form-control" title="Numero de registros a mostrar">
+  		<option value ='10' >10</option>
+		<option value ='25' >25</option>
+		<option value ='50' >50</option>
+		<option value ='100' >100</option>
+		<option value ='200' >200</option>
   	</select>
   </div>
+
   <?php /* <div class="col-lg-3"> 
   </div><!-- /.col-lg-6 -->  */ ?>
 </div><!-- /.row --> 
@@ -52,63 +62,23 @@ if ($_POST['search_fast']){
 	<table  class="table table-bordered table-hover">
 	  <thead id = "list_user">
 		  <tr> 
-		  	<?php 
-			#INCLUYO EL PROCESO QUE TRAE EL ORDER Y EL BY DE PAGINACION PARA EL LIST
-			require $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/process/pro_pagination/pro_get_orderby.php";
-			?>
-			  <th id="order_1" onclick="set_order(1,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 1){echo $class_sorting;} ?> " >Id</th>
-			  <th id="order_2" onclick="set_order(2,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 2){echo $class_sorting;} ?> ">Fecha de Creación</th>
-			  <th id="order_3" onclick="set_order(3,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 3){echo $class_sorting;} ?> ">Usuario</th>
-			  <th id="order_4" onclick="set_order(4,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 4){echo $class_sorting;} ?> ">Nombre</th>
-			  <th id="order_5" onclick="set_order(5,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 5){echo $class_sorting;} ?> ">Identificación</th>
-			  <th id="order_6" onclick="set_order(6,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 6){echo $class_sorting;} ?> ">Email</th>
-			  <th id="order_7" onclick="set_order(7,'<?=$Page_url_order?>')" class ="sorting <?php if($_id == 7){echo $class_sorting;} ?> ">Estado</th>
+			  <th id="order_1" class ="sorting_desc" >Id</th>
+			  <th id="order_2" class ="sorting" >Fecha de Creación</th>
+			  <th id="order_3" class ="sorting" >Usuario</th>
+			  <th id="order_4" class ="sorting" >Nombre</th>
+			  <th id="order_5" class ="sorting" >Identificación</th>
+			  <th id="order_6" class ="sorting" >Email</th>
+			  <th id="order_7" class ="sorting" >Estado</th>
 		  </tr>
 	  </thead>   
-	  <tbody>
-
-
-	<?php //LLENAMOS LOS REGISTROS DE LOS USUARIOS 
-	if ($_Msg_response == 'true'){ ?>
-		<?php while(!$rs->EOF){ ?>
-	  	<tr onclick="document.location = '#';" style="cursor:pointer;">
-	   		<td><?=$rs->fields["use_id"]?></td>
-	   		<td><?=$rs->fields["use_dat"]?></td>
-	   		<td><?=$rs->fields["use_nam"]?></td>
-	   		<td><?=$rs->fields["nombre"]?></td>
-	   		<td><?=$rs->fields["per_pro_id"]?></td>
-	   		<td><?=$rs->fields["per_pro_ema"]?></td>
-	   		<? 
-			switch ($rs->fields["use_est"]) {
-			    case 'A': $estado = "Activo"; $label = "label label-success"; break;
-			    case 'I': $estado = "Inactivo"; $label = "label label-default"; break;
-			    case 'B': $estado = "Baneado"; $label = "label label-info"; break;
-			    case 'S':  $estado = "Suspendido"; $label = "label label-danger"; break;
-			    case 'N': $estado = "Incompleto";  $label = "label label-warning"; break;
-			    default: $estado = "Desconocido"; $label = "label label-primary";
-				}
-	   		?>
-	   		<td><span class="<?=$label?>"><?=$estado?></span></td>
-	   		<? unset($estado);unset($label); ?>
-	   </tr>
-   		<? $rs->MoveNext();} ?>
-	<?php }else{ ?>
-			<tr>
-				<td colspan="7">
-					<div class="alert alert-<?=$_class_msg?>"><?=$_Msg_response?></div>
-				</td>
-			</tr>
-		<? } ?>
-
-
-	  </tbody>
+	  <tbody id="listdata" ></tbody>
   </table>            
 
 
 <!-- Paginación -->
 <?php
 #INCLUYO EL PROCESO QUE ME MUESTRA LA PAGINACIÓN.
-require $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/process/pro_pagination/pro_pagination.php";
+//require $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/process/pro_pagination/pro_pagination.php";
 ?>
 <!-- fin de Paginación -->
 
@@ -130,7 +100,19 @@ if ($_show_messagge == 'true'){ ?>
 </div>
 
 <script type="text/javascript">
+//Declaro donde se va a responder la tabla.
+var divresponse = $("#listdata");
+
+//Declaro valores principales de la paginacion
+var Json_file = '<?=$Json_file?>';
+var Json_url = '<?=$Json_url?>';
+var Page = '<?=$Page?>';
+var Size_page = '<?=$Size_page?>';
+var Order = '<?=$Order?>';
+var By = '<?=$By?>';
+
   $( document ).ready(function() {
+  	//Cargo el contenido.
 
 	//Incluimos el script de preloader
 	$.getScript( "/<?=$name_proyect?>/module/mod_<?=$_GET['url_module']?>/js/loadingoverlay.js" )
@@ -140,9 +122,43 @@ if ($_show_messagge == 'true'){ ?>
 
   	//Incluimos el script que permite la paginación.
 	$.getScript( "/<?=$name_proyect?>/module/mod_<?=$_GET['url_module']?>/js/js_paginator_ajax.js" )
-  		.done(function( script, textStatus ) { console.log('%c js_paginator_ajax.js OK ', 'color: #088A29'); })
+  		.done(function( script, textStatus ) { console.log('%c js_paginator_ajax.js OK ', 'color: #088A29'); 
+  			loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By); })
   		.fail(function( jqxhr, settings, exception ) {console.log('%c No se pudo cargar -> js_paginator_ajax.js', 'background: #222; color: #ffffff');});
 
-	
+
+  		tableJson = function(data) {
+  			$.each(data, function(key, value) {
+  					//Evito que aparesca nulo en estos campos.
+  					if(value['nombre']==null){value['nombre']='';}
+  					if(value['per_pro_id']==null){value['per_pro_id']='';}
+  					if(value['per_pro_ema']==null){value['per_pro_ema']='';}
+
+  				var estado, label;
+
+  				switch (value['use_est']) {
+			    	case 'A':  estado = "Activo";  label = "label label-success"; break;
+			    	case 'I':  estado = "Inactivo";  label = "label label-default"; break;
+			    	case 'B':  estado = "Baneado";  label = "label label-info"; break;
+			    	case 'S':  estado = "Suspendido";  label = "label label-danger"; break;
+			    	case 'N':  estado = "Incompleto";   label = "label label-warning"; break;
+			    	default:   estado = "Desconocido";  label = "label label-primary";
+				}
+
+			 	var datos   = "	<tr style='cursor:pointer;'>"
+				 				+" <td> "+ value['use_id'] +" </td>"
+				 				+" <td> "+ value['use_dat']+" </td>"
+				 				+" <td> "+ value['use_nam'] +" </td>"
+				 				+" <td> "+ value['nombre'] +" </td>"
+				 				+" <td> "+ value['per_pro_id'] +" </td>"
+				 				+" <td> "+ value['per_pro_ema'] +" </td>"
+				 				+" <td> <span class='"+label+"'>"+ estado +"</span></td>"
+				 		 +"	 </tr>";
+				 		divresponse.append(datos);
+  			}); // Fin each
+
+  		} //Fin funcion tablejson
+
   	});
+
 </script>
