@@ -84,28 +84,55 @@ var Size_page =  $( "input[name='inputSize_page']" ).val();
 var Order =      $( "input[name='inputOrder']" ).val();
 var By =         $( "input[name='inputBy']" ).val();
 
+var itemperpage = 10; //Numero de paginadores a mostrar
+
+//CREO LA VARIABLE PARA PAGINAR
+var start = parseInt(Page)-(itemperpage/2);
+var end = parseInt(Page)+(itemperpage/2);
+var arrpages =[];
+var j=0;
+
+if(start<0){end=end +(start*-1); start=1;}
+if(end>=Total_pages-1){start=start-(end-Total_pages-1);end=Total_pages;}
+
+for (var i = start ;i<=end;i++) {
+	if(j<itemperpage){
+		arrpages[j] = start; j++; start++;
+	}
+};
+
 divpagination.html("");
-//divpagination.html('Page>'+Page+' _ '+'Total_pages>'+Total_pages);
+
 var htmlpag   = "<ul id='ulpagination' class='pagination'>";
 
 	if(Page!=1)	{
 		i=parseInt(Page)-1;
-		htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,Json_file,"+i+","+Size_page+","+Order+","+By+")' style='cursor:pointer;'title = 'Anterior '><i class='fa fa-arrow-left'></i></a></li>";
+		htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,Json_file,"+1+","+Size_page+","+Order+","+By+")' style='cursor:pointer;'title = 'Ir al Inicio '><i class='fa fa-arrow-left'></i></a></li>";
+		htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,Json_file,"+i+","+Size_page+","+Order+","+By+")' style='cursor:pointer;'title = 'Anterior '><i class='fa fa-chevron-left'></i></a></li>";
 	}else{
-		htmlpag = htmlpag + "<li><a  title = 'No hay Anterior '><i class='fa fa-arrow-left' style='color: gray;'></i></a></li>";
+		htmlpag = htmlpag + "<li><a  title = 'No hay Anteriores '><i class='fa fa-arrow-left' style='color: gray;'></i></a></li>";
+		htmlpag = htmlpag + "<li><a  title = 'No hay Anterior '><i class='fa fa-chevron-left' style='color: gray;'></i></a></li>";
 	}
-	for (i=1;i<=Total_pages;i++) {
-		if (Page == i){ 
-			htmlpag = htmlpag +" <li class='active'><a >"+i+"</a></li>";
-		}else{
-			htmlpag = htmlpag +" <li class=''><a onclick='loadtable(name_proyect,Json_url,Json_file,"+i+","+Size_page+","+Order+","+By+")' style='cursor:pointer;'>"+i+"</a></li>";
-		}
+	for (var i=1;i<=Total_pages;i++) {
+		if (arrpages.indexOf(i)!=-1) {
+			if (Page == i){ 
+				htmlpag = htmlpag +" <li class='active'><a >"+i+"</a></li>";
+			}else{
+				htmlpag = htmlpag +" <li class=''><a onclick='loadtable(name_proyect,Json_url,Json_file,"+i+","+Size_page+","+Order+","+By+")' style='cursor:pointer;'>"+i+"</a></li>";
+			}
+		};
 	};
 	if(Page!=Total_pages)	{
 		i=parseInt(Page)+1;
-		htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,Json_file,"+i+","+Size_page+","+Order+","+By+")'  style='cursor:pointer;'title = 'Siguiente '><i class='fa fa-arrow-right'></i></a></li>";
+		htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,Json_file,"+i+","+Size_page+","+Order+","+By+")'  style='cursor:pointer;'title = 'Siguiente '><i class='fa fa-chevron-right'></i></a></li>";
+		if(itemperpage<=Total_pages){
+			htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,Json_file,"+Total_pages+","+Size_page+","+Order+","+By+")'  style='cursor:pointer;'title = 'Siguiente '><i class='fa fa-arrow-right'></i> "+Total_pages+"</a></li>";
+			}
 	}else{
-		htmlpag = htmlpag + "<li><a title = 'No hay Siguiente '><i class='fa fa-arrow-right' style='color: gray;'></i></a></li>";
+		htmlpag = htmlpag + "<li><a title = 'No hay Siguiente '><i class='fa fa-chevron-right' style='color: gray;'></i></a></li>";
+		if(itemperpage<=Total_pages){
+			htmlpag = htmlpag + "<li><a title = 'No hay Siguientes '  style='color: gray;'><i class='fa fa-arrow-right' style='color: gray;'></i>" +Total_pages+ "</a></li>";
+		}
 	}
 
 htmlpag = htmlpag +" </ul>";
@@ -196,3 +223,4 @@ $("input[name=search_fast]").on('keyup', function() {
 	loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By); 
 	}
 });
+
