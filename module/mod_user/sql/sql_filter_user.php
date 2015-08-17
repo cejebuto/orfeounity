@@ -18,6 +18,10 @@ $_Msg_response = $db;
 //Si existe la conexión, procedemos a validar.
 }else{
 
+    #INCLUYO FUNCION PARA LIMPIAR LAS VARIABLES
+    require $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/function/fun_string/fun_clean_string.php";
+
+$filter = strtoupper(clean_string($filter));
 
 //Query para traer los usuarios.
 $query = "SELECT  
@@ -32,6 +36,11 @@ FROM
     sgd_user u 
     LEFT JOIN sgd_personal_profile pp
     ON u.use_id = pp.use_id
+WHERE
+    upper(u.use_nam) like '%".$filter."%'
+    or upper(pp.per_pro_nam) like '%".$filter."%' 
+    or upper(pp.per_pro_sur) like '%".$filter."%' 
+    or upper(pp.per_pro_ema) like '%".$filter."%' 
 ORDER BY ".$By." ".$_Order."
 ";
 
@@ -43,7 +52,6 @@ ORDER BY ".$By." ".$_Order."
  $rs = $rs[0];
 
  //$rs = $db->Execute($query);  // NORMAL
-
 
 //Compruebo la consulta
 if (!$rs){
@@ -64,9 +72,11 @@ if (!$rs){
     //Si se construyó correctamente la consulta
 
     //Cuento las Filas.
+    
     if ($showdata == 'true'){ $num_row_query = count($rs);} else {$num_row_query = 0;}
 
-        if( $num_row_query >= 1 ) { // Si hay un solo registro procedo a ingresar al aplicativo
+//echo var_dump($rs); exit;
+        if( $num_row_query >= 1) { // Si hay un solo registro procedo a ingresar al aplicativo 
             $_class_msg = "success";
             $_Msg_response = 'true';
          
@@ -78,7 +88,7 @@ if (!$rs){
             //--------------------
 
         } else{
-            $_class_msg = "warning";
+           $_class_msg = "warning";
            $_Msg_response = "No hay usuarios para mostrar.";
            $rs = null;
         }// fin de contar filas 

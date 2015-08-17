@@ -1536,12 +1536,20 @@ if (!defined('_ADODB_LAYER')) {
 			$rs = $this->Execute($sql,$inputarr);
 		}
 
+	     $NumRowTotal = $rs->RecordCount();
+
+		if ($NumRowTotal == 0){
+			$showdata = 'false';
+		}else{
+			$showdata = 'true';
+		}	
 
 		$ADODB_COUNTRECS = $savec;
 		if ($rs && !$rs->EOF) {
 			$rs = $this->_rs2rsArray($rs,$nrows,$offset);
 		}
 
+		$rs= [$rs,$showdata];
 		return $rs;
 	}
 

@@ -5,7 +5,7 @@ $Json_file = "pro_list_user.php";
 $Json_url = "/$name_proyect/module/mod_".$_GET['url_module']."/process/";
 
 $Page = 1; //Comenzar en la pagina uno
-$Size_page = 10; //Mostrar por defecto 10 resultados
+$Size_page = 1; //Mostrar por defecto 10 resultados
 $Order = 2;    //1 / manera Desendente , 2 manera Asendente
 $By = 1; //Ordenar por el primer registro No.
 
@@ -27,7 +27,7 @@ $By = 1; //Ordenar por el primer registro No.
   	<div class="input-group">
 	<span class="input-group-addon"><i class="fa fa-search"></i></span>
 		<form method="post" action="./" >
-			<input type="text" name ="search_fast" class="form-control" value = "<?=$_POST['search_fast']?>" placeholder="Busqueda Rapida">
+			<input type="text" name ="search_fast" class="form-control" value = "" placeholder="Busqueda Rapida">
 		</form>
 	</div>
   </div><!-- /.col-lg-6 -->
@@ -36,6 +36,7 @@ $By = 1; //Ordenar por el primer registro No.
 
   <div class="col-lg-1">
   	<select id="selectdisplatrownum" name "" class="form-control" title="Numero de registros a mostrar">
+  		<option value ='1' >1</option>
   		<option value ='5' >5</option>
   		<option value ='10' >10</option>
 		<option value ='25' >25</option>
@@ -84,6 +85,7 @@ if ($_show_messagge == 'true'){ ?>
 </div>
 </div>
 
+<input type="hidden" value="<?=$Json_file?>" name="inputJson_file"/>
 <input type="hidden" value="<?=$Page?>" name="inputPage"/>
 <input type="hidden" value="<?=$Size_page?>" name="inputSize_page"/>
 <input type="hidden" value="<?=$Order?>" name="inputOrder"/>
@@ -95,7 +97,8 @@ var divresponse = $("#listdata");
 var divpagination = $("#pagination");
 
 //Declaro valores principales de la paginacion
-var Json_file = '<?=$Json_file?>';
+//var Json_file = '<?=$Json_file?>';
+var Json_file =  $( "input[name='inputJson_file']" ).val();
 var Json_url = '<?=$Json_url?>';
 
 var Page =       $( "input[name='inputPage']" ).val();

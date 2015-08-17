@@ -1,5 +1,5 @@
 
-function loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,showpreloader){
+function loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,showpreloader,filter){
 
 		var Jurl = Json_url+Json_file;
 
@@ -14,12 +14,13 @@ function loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,showp
 
 	   url: Jurl,
 	   type: 'POST',
-	   data:({name_proyect:name_proyect, Page:Page, Size_page:Size_page, Order:Order, By:By}),
+	   data:({name_proyect:name_proyect, Page:Page, Size_page:Size_page, Order:Order, By:By, filter:filter}),
 	   dataType: 'json',
 	   //data: {use_nam:use_nam,use_pas:use_pas,name_proyect:name_proyect},
 	   success: function(data){   
 	   		
 	   		//Reorganizo los valores
+	   		$( "input[name='inputJson_file']" ).val(Json_file);
 	   		$( "input[name='inputPage']" ).val(Page);
 	   		$( "input[name='inputSize_page']" ).val(Size_page);
 			$( "input[name='inputOrder']" ).val(Order);
@@ -78,6 +79,7 @@ function loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,showp
 
 function pagination(Page,Total_pages){
 
+var Json_file =  $( "input[name='inputJson_file']" ).val();
 var Size_page =  $( "input[name='inputSize_page']" ).val();
 var Order =      $( "input[name='inputOrder']" ).val();
 var By =         $( "input[name='inputBy']" ).val();
@@ -116,7 +118,8 @@ divpagination.html(htmlpag);
 
 //LISTAR POR EL ORDEN
 $( ".sorting,.sorting_desc,.sorting_asc" ).click(function() {
-
+	
+	var Json_file =  $( "input[name='inputJson_file']" ).val();
 	var Page =       $( "input[name='inputPage']" ).val();
 	var Size_page =  $( "input[name='inputSize_page']" ).val();
 
@@ -156,74 +159,40 @@ $( ".sorting,.sorting_desc,.sorting_asc" ).click(function() {
 //TAMAÑO DE LA PAGINA
 $("#selectdisplatrownum").change(function() {
 
+	var Json_file =  $( "input[name='inputJson_file']" ).val();
 	var Page =       $( "input[name='inputPage']" ).val();
 	var Order =      $( "input[name='inputOrder']" ).val();
 	var By =         $( "input[name='inputBy']" ).val();
+
+	if(Page>=1){Page=1}
 
     var Size_page = $(this).val();
 	loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By);    
 });
 
+//Busqueda Rapida
+$("input[name=search_fast]").on('keyup', function() {
+	var value = $(this).val();
+	if(value.length>=3){
 
-/*
-//Funcion para determinar en que pagina se ecuentra el listado
-function set_page(Page_url,Page,SizePage,Order,By) {
+			$( "input[name='inputJson_file']" ).val('pro_filter_user.php');
+			var Json_file = $( "input[name='inputJson_file']" ).val();
+			var Size_page =  $( "input[name='inputSize_page']" ).val();
+			var Page =       $( "input[name='inputPage']" ).val();
+			var Order =      $( "input[name='inputOrder']" ).val();
+			var By =         $( "input[name='inputBy']" ).val();
+		
+			loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,1,value); 
 
-$("#content").LoadingOverlay("show");
- url = Page_url+Page+"/"+SizePage+"/"+Order+"/"+By;
- $(location).attr('href',url);
- 
-}
+	//console.log(value);	
+	}else if(value.length==0){
+		$( "input[name='inputJson_file']" ).val('pro_list_user.php');
+		var Json_file = $( "input[name='inputJson_file']" ).val();
 
-//Funcion para determinar el tamaño del listado
-function set_size(Page_url,SizePage,Order,By) {
-$("#content").LoadingOverlay("show");
- 
-}
-
-//Funcion para determinar el orden del listado
-function set_order(data,url){
-
-$("#content").LoadingOverlay("show");
-
-var str1 = "#order_";
-var t_h = str1.concat(data);
-var className = $.trim(String($(t_h).attr('class')));
-
-switch(className) {
-    case 'sorting':
-		$(t_h).removeClass( "sorting" ).addClass("sorting_desc");
-		var order = 2;
-		var by = data;
-        break;
-    case "sorting sorting_desc":
-		$(t_h).removeClass( "sorting sorting_desc" ).addClass("sorting_asc");
-		var order = 1;
-		var by = data;
-        break;
-    case "sorting sorting_asc":
-		$(t_h).removeClass( "sorting sorting_asc" ).addClass("sorting_desc");
-		var order = 2;
-		var by = data;
-        break;
-    default:
-       	break;
-}
-
-//alert (order); return;
-url = url+"/"+order+"/"+by;
-
-//Redirecciono con el orden
-$(location).attr('href',url);
-
-}
-
-
-/*$( "#ulpagination" ).on( "click", function() {
-alert('Buen Camino');
+		var Size_page =  $( "input[name='inputSize_page']" ).val();
+		var Page =       $( "input[name='inputPage']" ).val();
+		var Order =      $( "input[name='inputOrder']" ).val();
+		var By =         $( "input[name='inputBy']" ).val();
+	loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By); 
+	}
 });
-
-$( "ul.pagination li" ).click(function() {
-alert('Buen Camino');
-});*/
-
