@@ -4,22 +4,12 @@
 $Json_file = "pro_list_user.php";
 $Json_url = "/$name_proyect/module/mod_".$_GET['url_module']."/process/";
 
-$Page = 0; //Comenzar en la pagina uno
+$Page = 1; //Comenzar en la pagina uno
 $Size_page = 10; //Mostrar por defecto 10 resultados
 $Order = 2;    //1 / manera Desendente , 2 manera Asendente
 $By = 1; //Ordenar por el primer registro No.
 
-
-// Compruebo si es busqueda 
-if ($_POST['search_fast']){
-	#LISTO TODOS LOS CONSULTA RAPIDA
-	#require_once $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/module/mod_".$_GET['url_module']."/sql/sql_list_user_search_fast.php";	
-}else{
-
-	#LISTO TODOS LOS USUARIOS
-	#require_once $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/module/mod_".$_GET['url_module']."/sql/sql_list_user.php";
-} ?>
-
+?>
  
 <div class="box">
 <div class="box-header" data-original-title>
@@ -76,13 +66,7 @@ if ($_POST['search_fast']){
   </table>            
 
 
-<!-- Paginación -->
-<?php
-#INCLUYO EL PROCESO QUE ME MUESTRA LA PAGINACIÓN.
-//require $_SERVER['DOCUMENT_ROOT'].'/'.$name_proyect."/process/pro_pagination/pro_pagination.php";
-?>
-<!-- fin de Paginación -->
-
+<div id ="pagination"><div>
 
 <?php if ($_Msg_response == 'true'){ ?>
 <?php //si requiere exportar ?>
@@ -108,6 +92,7 @@ if ($_show_messagge == 'true'){ ?>
 <script type="text/javascript">
 //Declaro donde se va a responder la tabla.
 var divresponse = $("#listdata");
+var divpagination = $("#pagination");
 
 //Declaro valores principales de la paginacion
 var Json_file = '<?=$Json_file?>';

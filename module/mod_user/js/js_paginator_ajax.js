@@ -18,7 +18,7 @@ function loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,showp
 	   dataType: 'json',
 	   //data: {use_nam:use_nam,use_pas:use_pas,name_proyect:name_proyect},
 	   success: function(data){   
-
+	   		
 	   		//Reorganizo los valores
 	   		$( "input[name='inputPage']" ).val(Page);
 	   		$( "input[name='inputSize_page']" ).val(Size_page);
@@ -29,7 +29,18 @@ function loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,showp
 	   		divresponse.html('');
 	   			//Si la consulta se hizo correctamente muestro la data, lo contrario el mensaje de error
 	   			if(data[1]=='true'){
-		   			tableJson(data[0]);
+		   			tableJson(data[0]); //LLamo la funcion para mostrar la data
+					Total_pages = data[3];
+					StartPage   = data[4];
+					NumRowTotal = data[5];
+
+					divpagination.html("");
+					if (Total_pages > 1) { 
+						pagination(Page,Total_pages); //LLamo la funcion que me permite paginar
+					}
+
+
+
 				}else{
 					divresponse.html('<tr><td colspan="7"><div class="alert alert-'+data[2]+'">'+data[1]+'</div></td></tr>');						
 				}
@@ -55,11 +66,53 @@ function loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,showp
 	    @@ data[0]- resultset assoc
 	    @@ data[1]- Messagge
 	    @@ data[2]- Class CSS Messagge
+	    @@ data[3]- Total page pagination
+	    @@ data[4]- Start Page for Pagination
+	    @@ data[5]- Row Number total sql
 	    */
 
 	  });
 
 }
+
+
+function pagination(Page,Total_pages){
+
+var Size_page =  $( "input[name='inputSize_page']" ).val();
+var Order =      $( "input[name='inputOrder']" ).val();
+var By =         $( "input[name='inputBy']" ).val();
+
+divpagination.html("");
+//divpagination.html('Page>'+Page+' _ '+'Total_pages>'+Total_pages);
+var htmlpag   = "<ul id='ulpagination' class='pagination'>";
+
+	if(Page!=1)	{
+		i=parseInt(Page)-1;
+		htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,Json_file,"+i+","+Size_page+","+Order+","+By+")' style='cursor:pointer;'title = 'Anterior '><i class='fa fa-arrow-left'></i></a></li>";
+	}else{
+		htmlpag = htmlpag + "<li><a  title = 'No hay Anterior '><i class='fa fa-arrow-left' style='color: gray;'></i></a></li>";
+	}
+	for (i=1;i<=Total_pages;i++) {
+		if (Page == i){ 
+			htmlpag = htmlpag +" <li class='active'><a >"+i+"</a></li>";
+		}else{
+			htmlpag = htmlpag +" <li class=''><a onclick='loadtable(name_proyect,Json_url,Json_file,"+i+","+Size_page+","+Order+","+By+")' style='cursor:pointer;'>"+i+"</a></li>";
+		}
+	};
+	if(Page!=Total_pages)	{
+		i=parseInt(Page)+1;
+		htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,Json_file,"+i+","+Size_page+","+Order+","+By+")'  style='cursor:pointer;'title = 'Siguiente '><i class='fa fa-arrow-right'></i></a></li>";
+	}else{
+		htmlpag = htmlpag + "<li><a title = 'No hay Siguiente '><i class='fa fa-arrow-right' style='color: gray;'></i></a></li>";
+	}
+
+htmlpag = htmlpag +" </ul>";
+
+divpagination.html(htmlpag);
+}
+
+
+
 
 //LISTAR POR EL ORDEN
 $( ".sorting,.sorting_desc,.sorting_asc" ).click(function() {
@@ -81,11 +134,13 @@ $( ".sorting,.sorting_desc,.sorting_asc" ).click(function() {
 			Order = 2;
 	        break;
 	    case "sorting_desc":
+	    	$(id).removeClass( "sorting" );
 			$(id).removeClass( "sorting_desc" ).addClass("sorting_asc");
 			Order = 1;
 	        break;
 	    case "sorting_asc":
-			$(id).removeClass( "sorting_asc" ).addClass("sorting_desc");
+	    	$(id).removeClass( "sorting" );
+			$(id).removeClass( "sorting sorting_asc" ).addClass("sorting_desc");
 			Order = 2;
 	        break;
 	    default:
@@ -162,4 +217,13 @@ url = url+"/"+order+"/"+by;
 $(location).attr('href',url);
 
 }
-*/
+
+
+/*$( "#ulpagination" ).on( "click", function() {
+alert('Buen Camino');
+});
+
+$( "ul.pagination li" ).click(function() {
+alert('Buen Camino');
+});*/
+

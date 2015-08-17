@@ -1480,7 +1480,7 @@ if (!defined('_ADODB_LAYER')) {
 	}
 
 /******************************************************/
-	function SelectLimitAssoc($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0) {
+	function SelectLimitArray($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0) {
 		if ($this->hasTop && $nrows > 0) {
 			// suggested by Reinhard Balling. Access requires top after distinct
 			// Informix requires first before distinct - F Riosa
@@ -1539,14 +1539,14 @@ if (!defined('_ADODB_LAYER')) {
 
 		$ADODB_COUNTRECS = $savec;
 		if ($rs && !$rs->EOF) {
-			$rs = $this->_rs2rsAssoc($rs,$nrows,$offset);
+			$rs = $this->_rs2rsArray($rs,$nrows,$offset);
 		}
 
 		return $rs;
 	}
 
 /**********************************************************************/
-	function &_rs2rsAssoc(&$rs,$nrows=-1,$offset=-1,$close=true) {
+	function &_rs2rsArray(&$rs,$nrows=-1,$offset=-1,$close=true) {
 		
 		if (! $rs) {
 			return false;
