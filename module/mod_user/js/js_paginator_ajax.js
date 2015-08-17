@@ -19,6 +19,12 @@ function loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,showp
 	   //data: {use_nam:use_nam,use_pas:use_pas,name_proyect:name_proyect},
 	   success: function(data){   
 
+	   		//Reorganizo los valores
+	   		$( "input[name='inputPage']" ).val(Page);
+	   		$( "input[name='inputSize_page']" ).val(Size_page);
+			$( "input[name='inputOrder']" ).val(Order);
+	        $( "input[name='inputBy']" ).val(By);
+
 	   		//Limpio el resultado.
 	   		divresponse.html('');
 	   			//Si la consulta se hizo correctamente muestro la data, lo contrario el mensaje de error
@@ -27,6 +33,7 @@ function loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,showp
 				}else{
 					divresponse.html('<tr><td colspan="7"><div class="alert alert-'+data[2]+'">'+data[1]+'</div></td></tr>');						
 				}
+
 	   		//Oculto el preload
 	   		$("#content").LoadingOverlay("hide");
 	   },
@@ -57,6 +64,9 @@ function loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,showp
 //LISTAR POR EL ORDEN
 $( ".sorting,.sorting_desc,.sorting_asc" ).click(function() {
 
+	var Page =       $( "input[name='inputPage']" ).val();
+	var Size_page =  $( "input[name='inputSize_page']" ).val();
+
 	var id =  '#'+$(this).attr('id') ;
 	var className = $(id).attr('class');
 	By = id.substr(-1);
@@ -83,14 +93,21 @@ $( ".sorting,.sorting_desc,.sorting_asc" ).click(function() {
 	}
 	//Recargo la Pagina
 	loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By);
+	
 
 });
 
 
 //TAMAÑO DE LA PAGINA
-/*$( "#selectdisplatrownum" ).change(function() {
-  alert( "Handler for .change() called." );
-}); */
+$("#selectdisplatrownum").change(function() {
+
+	var Page =       $( "input[name='inputPage']" ).val();
+	var Order =      $( "input[name='inputOrder']" ).val();
+	var By =         $( "input[name='inputBy']" ).val();
+
+    var Size_page = $(this).val();
+	loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By);    
+});
 
 
 /*

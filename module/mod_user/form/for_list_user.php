@@ -46,6 +46,7 @@ if ($_POST['search_fast']){
 
   <div class="col-lg-1">
   	<select id="selectdisplatrownum" name "" class="form-control" title="Numero de registros a mostrar">
+  		<option value ='5' >5</option>
   		<option value ='10' >10</option>
 		<option value ='25' >25</option>
 		<option value ='50' >50</option>
@@ -92,12 +93,17 @@ if ($_POST['search_fast']){
 	  </ul>
 <?php } ?>
 
-<?php // Si Pagina correctamente muestre el mensaje.
+<?php // Si Pagina correctamente muestre el mensaje. hidden
 if ($_show_messagge == 'true'){ ?>
 <div class="alert alert-info" style = "padding:0px;margin-top:-18px;"><font style="font-size:10px">Mostrando de <?=$page_ini?> a <?=$page_fin?> Registros de, <?=$num_row_total?> en total</font></div>
 <?php } ?>
 </div>
 </div>
+
+<input type="hidden" value="<?=$Page?>" name="inputPage"/>
+<input type="hidden" value="<?=$Size_page?>" name="inputSize_page"/>
+<input type="hidden" value="<?=$Order?>" name="inputOrder"/>
+<input type="hidden" value="<?=$By?>" name="inputBy"/>
 
 <script type="text/javascript">
 //Declaro donde se va a responder la tabla.
@@ -106,25 +112,32 @@ var divresponse = $("#listdata");
 //Declaro valores principales de la paginacion
 var Json_file = '<?=$Json_file?>';
 var Json_url = '<?=$Json_url?>';
-var Page = '<?=$Page?>';
-var Size_page = '<?=$Size_page?>';
-var Order = '<?=$Order?>';
-var By = '<?=$By?>';
+
+var Page =       $( "input[name='inputPage']" ).val();
+var Size_page =  $( "input[name='inputSize_page']" ).val();
+var Order =      $( "input[name='inputOrder']" ).val();
+var By =         $( "input[name='inputBy']" ).val();
+
+
 
   $( document ).ready(function() {
-  	//Cargo el contenido.
+  	
+  	//Obtenemos el tamaño de la pagina por defecto para el select
+	$("#selectdisplatrownum").val(Size_page);
 
 	//Incluimos el script de preloader
 	$.getScript( "/<?=$name_proyect?>/module/mod_<?=$_GET['url_module']?>/js/loadingoverlay.js" )
-  		.done(function( script, textStatus ) { console.log('%c loadingoverlay.js OK ', 'color: #088A29'); })
+  		.done(function( script, textStatus ) { console.log('%c loadingoverlay.js OK ', 'color: #088A29');
+
+		  	//Incluimos el script que permite la paginación.
+			$.getScript( "/<?=$name_proyect?>/module/mod_<?=$_GET['url_module']?>/js/js_paginator_ajax.js" )
+		  		.done(function( script, textStatus ) { console.log('%c js_paginator_ajax.js OK ', 'color: #088A29'); 
+		  			//Cargamos por primera vez los datos
+		  			loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By); })
+		  		.fail(function( jqxhr, settings, exception ) {console.log('%c No se pudo cargar -> js_paginator_ajax.js', 'background: #222; color: #ffffff');});
+
+  		 })
   		.fail(function( jqxhr, settings, exception ) {console.log('%c No se pudo cargar -> loadingoverlay.js', 'background: #222; color: #ffffff');});
-
-
-  	//Incluimos el script que permite la paginación.
-	$.getScript( "/<?=$name_proyect?>/module/mod_<?=$_GET['url_module']?>/js/js_paginator_ajax.js" )
-  		.done(function( script, textStatus ) { console.log('%c js_paginator_ajax.js OK ', 'color: #088A29'); 
-  			loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By); })
-  		.fail(function( jqxhr, settings, exception ) {console.log('%c No se pudo cargar -> js_paginator_ajax.js', 'background: #222; color: #ffffff');});
 
 
   		tableJson = function(data) {
