@@ -79,12 +79,25 @@ function loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,showp
 
 function pagination(Page,Total_pages){
 
-var Json_file =  $( "input[name='inputJson_file']" ).val();
+//var Json_file =  $( "input[name='inputJson_file']" ).val();
 var Size_page =  $( "input[name='inputSize_page']" ).val();
 var Order =      $( "input[name='inputOrder']" ).val();
 var By =         $( "input[name='inputBy']" ).val();
 
-var itemperpage = 10; //Numero de paginadores a mostrar
+
+
+var value = $("input[name=search_fast]").val();
+//Compruebo si lo debo filtar o no 
+	if(value.length>=3){
+		$( "input[name='inputJson_file']" ).val('pro_filter_user.php');
+	}else{
+		$( "input[name='inputJson_file']" ).val('pro_list_user.php');
+	}
+
+var Json_file = $( "input[name='inputJson_file']" ).val();
+
+
+var itemperpage = 10; //Numero Maximo de paginadores a mostrar
 
 //CREO LA VARIABLE PARA PAGINAR
 var start = parseInt(Page)-(itemperpage/2);
@@ -92,8 +105,8 @@ var end = parseInt(Page)+(itemperpage/2);
 var arrpages =[];
 var j=0;
 
-if(start<0){end=end +(start*-1); start=1;}
-if(end>=Total_pages-1){start=start-(end-Total_pages-1);end=Total_pages;}
+if(start<=0){end=end +(start*-1); start=1;}
+if(end>Total_pages){start=start-(end-Total_pages-1);end=Total_pages;}
 
 for (var i = start ;i<=end;i++) {
 	if(j<itemperpage){
@@ -107,10 +120,14 @@ var htmlpag   = "<ul id='ulpagination' class='pagination'>";
 
 	if(Page!=1)	{
 		i=parseInt(Page)-1;
-		htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,Json_file,"+1+","+Size_page+","+Order+","+By+")' style='cursor:pointer;'title = 'Ir al Inicio '><i class='fa fa-arrow-left'></i></a></li>";
-		htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,Json_file,"+i+","+Size_page+","+Order+","+By+")' style='cursor:pointer;'title = 'Anterior '><i class='fa fa-chevron-left'></i></a></li>";
+		if(itemperpage<Total_pages){
+			htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,"+'"'+Json_file+'"'+","+1+","+Size_page+","+Order+","+By+",0,"+'"'+value+'"'+")' style='cursor:pointer;'title = 'Ir al Inicio '><i class='fa fa-arrow-left'></i></a></li>";
+		}
+		htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,"+'"'+Json_file+'"'+","+i+","+Size_page+","+Order+","+By+",0,"+'"'+value+'"'+")'style='cursor:pointer;'title = 'Anterior '><i class='fa fa-chevron-left'></i></a></li>";
 	}else{
-		htmlpag = htmlpag + "<li><a  title = 'No hay Anteriores '><i class='fa fa-arrow-left' style='color: gray;'></i></a></li>";
+		if(itemperpage<Total_pages){
+			htmlpag = htmlpag + "<li><a  title = 'No hay Anteriores '><i class='fa fa-arrow-left' style='color: gray;'></i></a></li>";
+		}
 		htmlpag = htmlpag + "<li><a  title = 'No hay Anterior '><i class='fa fa-chevron-left' style='color: gray;'></i></a></li>";
 	}
 	for (var i=1;i<=Total_pages;i++) {
@@ -118,19 +135,19 @@ var htmlpag   = "<ul id='ulpagination' class='pagination'>";
 			if (Page == i){ 
 				htmlpag = htmlpag +" <li class='active'><a >"+i+"</a></li>";
 			}else{
-				htmlpag = htmlpag +" <li class=''><a onclick='loadtable(name_proyect,Json_url,Json_file,"+i+","+Size_page+","+Order+","+By+")' style='cursor:pointer;'>"+i+"</a></li>";
+				htmlpag = htmlpag +" <li class=''><a onclick='loadtable(name_proyect,Json_url,"+'"'+Json_file+'"'+","+i+","+Size_page+","+Order+","+By+",0,"+'"'+value+'"'+")' style='cursor:pointer;'>"+i+"</a></li>";
 			}
 		};
 	};
 	if(Page!=Total_pages)	{
 		i=parseInt(Page)+1;
-		htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,Json_file,"+i+","+Size_page+","+Order+","+By+")'  style='cursor:pointer;'title = 'Siguiente '><i class='fa fa-chevron-right'></i></a></li>";
-		if(itemperpage<=Total_pages){
-			htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,Json_file,"+Total_pages+","+Size_page+","+Order+","+By+")'  style='cursor:pointer;'title = 'Siguiente '><i class='fa fa-arrow-right'></i> "+Total_pages+"</a></li>";
+		htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,"+'"'+Json_file+'"'+","+i+","+Size_page+","+Order+","+By+",0,"+'"'+value+'"'+")'  style='cursor:pointer;'title = 'Siguiente '><i class='fa fa-chevron-right'></i></a></li>";
+		if(itemperpage<Total_pages){
+			htmlpag = htmlpag + "<li><a  onclick='loadtable(name_proyect,Json_url,"+'"'+Json_file+'"'+","+Total_pages+","+Size_page+","+Order+","+By+",0,"+'"'+value+'"'+")'  style='cursor:pointer;'title = 'Siguiente '><i class='fa fa-arrow-right'></i> "+Total_pages+"</a></li>";
 			}
 	}else{
 		htmlpag = htmlpag + "<li><a title = 'No hay Siguiente '><i class='fa fa-chevron-right' style='color: gray;'></i></a></li>";
-		if(itemperpage<=Total_pages){
+		if(itemperpage<Total_pages){
 			htmlpag = htmlpag + "<li><a title = 'No hay Siguientes '  style='color: gray;'><i class='fa fa-arrow-right' style='color: gray;'></i>" +Total_pages+ "</a></li>";
 		}
 	}
@@ -176,9 +193,18 @@ $( ".sorting,.sorting_desc,.sorting_asc" ).click(function() {
 	    default:
 	       	break;
 	}
-	//Recargo la Pagina
-	loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By);
-	
+
+	var value = $("input[name=search_fast]").val();
+	//Compruebo si lo debo filtar o no 
+	if(value.length>=3){
+		$( "input[name='inputJson_file']" ).val('pro_filter_user.php');
+		var Json_file = $( "input[name='inputJson_file']" ).val();
+		loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,1,value); 
+	}else{
+		$( "input[name='inputJson_file']" ).val('pro_list_user.php');
+		var Json_file = $( "input[name='inputJson_file']" ).val();
+		loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By);
+	}
 
 });
 
@@ -194,33 +220,43 @@ $("#selectdisplatrownum").change(function() {
 	if(Page>=1){Page=1}
 
     var Size_page = $(this).val();
-	loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By);    
+
+	var value = $("input[name=search_fast]").val();
+	//Compruebo si lo debo filtar o no 
+	if(value.length>=3){
+		$( "input[name='inputJson_file']" ).val('pro_filter_user.php');
+		var Json_file = $( "input[name='inputJson_file']" ).val();
+		loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,1,value); 
+	}else{
+		$( "input[name='inputJson_file']" ).val('pro_list_user.php');
+		var Json_file = $( "input[name='inputJson_file']" ).val();
+		loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By);
+	}
+	
 });
 
 //Busqueda Rapida
 $("input[name=search_fast]").on('keyup', function() {
 	var value = $(this).val();
+
+	var Size_page =  $( "input[name='inputSize_page']" ).val();
+	var Page =       $( "input[name='inputPage']" ).val();
+	var Order =      $( "input[name='inputOrder']" ).val();
+	var By =         $( "input[name='inputBy']" ).val();
+
+	if(Page>=1){Page=1}
+
 	if(value.length>=3){
-
-			$( "input[name='inputJson_file']" ).val('pro_filter_user.php');
-			var Json_file = $( "input[name='inputJson_file']" ).val();
-			var Size_page =  $( "input[name='inputSize_page']" ).val();
-			var Page =       $( "input[name='inputPage']" ).val();
-			var Order =      $( "input[name='inputOrder']" ).val();
-			var By =         $( "input[name='inputBy']" ).val();
+		$( "input[name='inputJson_file']" ).val('pro_filter_user.php');
+		var Json_file = $( "input[name='inputJson_file']" ).val();
 		
-			loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,1,value); 
+		loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,1,value); 
 
-	//console.log(value);	
 	}else if(value.length==0){
 		$( "input[name='inputJson_file']" ).val('pro_list_user.php');
 		var Json_file = $( "input[name='inputJson_file']" ).val();
-
-		var Size_page =  $( "input[name='inputSize_page']" ).val();
-		var Page =       $( "input[name='inputPage']" ).val();
-		var Order =      $( "input[name='inputOrder']" ).val();
-		var By =         $( "input[name='inputBy']" ).val();
-	loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By); 
+		
+		loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By); 
 	}
 });
 

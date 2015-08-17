@@ -5,7 +5,7 @@ $Json_file = "pro_list_user.php";
 $Json_url = "/$name_proyect/module/mod_".$_GET['url_module']."/process/";
 
 $Page = 1; //Comenzar en la pagina uno
-$Size_page = 1; //Mostrar por defecto 10 resultados
+$Size_page = 10; //Mostrar por defecto 10 resultados
 $Order = 2;    //1 / manera Desendente , 2 manera Asendente
 $By = 1; //Ordenar por el primer registro No.
 
@@ -36,7 +36,7 @@ $By = 1; //Ordenar por el primer registro No.
 
   <div class="col-lg-1">
   	<select id="selectdisplatrownum" name "" class="form-control" title="Numero de registros a mostrar">
-  		<option value ='1' >1</option>
+  		<option value ='2' >2</option>
   		<option value ='5' >5</option>
   		<option value ='10' >10</option>
 		<option value ='25' >25</option>
@@ -51,16 +51,16 @@ $By = 1; //Ordenar por el primer registro No.
 </div><!-- /.row --> 
 </div>
 <div  id "list_user"  class="box-content" style="margin-bottom: -80px" >
-	<table  class="table table-bordered table-hover">
+	<table  style="table-layout:fixed"; class="table table-bordered table-hover">
 	  <thead id = "list_user">
 		  <tr> 
-			  <th id="order_1" class ="sorting_desc" >Id</th>
+			  <th  width="60" id="order_1" class ="sorting_desc" >Id</th>
 			  <th id="order_2" class ="sorting" >Fecha de Creación</th>
 			  <th id="order_3" class ="sorting" >Usuario</th>
 			  <th id="order_4" class ="sorting" >Nombre</th>
 			  <th id="order_5" class ="sorting" >Identificación</th>
 			  <th id="order_6" class ="sorting" >Email</th>
-			  <th id="order_7" class ="sorting" >Estado</th>
+			  <th width="100"  id="order_7" class ="sorting" >Estado</th>
 		  </tr>
 	  </thead>   
 	  <tbody id="listdata" ></tbody>
