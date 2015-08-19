@@ -36,6 +36,7 @@ $By = 1; //Ordenar por el primer registro No.
 
   <div class="col-lg-1">
   	<select id="selectdisplatrownum" name "" class="form-control" title="Numero de registros a mostrar">
+  		<option value ='1' >1</option>
   		<option value ='2' >2</option>
   		<option value ='5' >5</option>
   		<option value ='10' >10</option>
@@ -66,22 +67,19 @@ $By = 1; //Ordenar por el primer registro No.
 	  <tbody id="listdata" ></tbody>
   </table>            
 
+<ul id ='pagination' class='pagination'></ul>
 
-<div id ="pagination"><div>
+<?php /*
+  <ul id ="export" style="display:none" class="pagination">
+	<li><a href="#" title = "Exportar a PDF "><i class="fa fa-file-pdf-o" style="color:#BE1111;" ></i></a></li>
+	<li><a href="#" title = "Exportar a Excel  "><i class="fa fa-file-excel-o" style="color:#2EBE11;" ></i></a></li>
+	<li><a href="#" title = "Exportar a CSV  "><i class="fa fa-file-code-o" style="color:#BEAD11;" ></i></a></li>
+  </ul>
+*/?>
 
-<?php if ($_Msg_response == 'true'){ ?>
-<?php //si requiere exportar ?>
-	  <ul class="pagination">
-		<li><a href="#" title = "Exportar a PDF "><i class="fa fa-file-pdf-o" style="color:#BE1111;" ></i></a></li>
-		<li><a href="#" title = "Exportar a Excel  "><i class="fa fa-file-excel-o" style="color:#2EBE11;" ></i></a></li>
-		<li><a href="#" title = "Exportar a CSV  "><i class="fa fa-file-code-o" style="color:#BEAD11;" ></i></a></li>
-	  </ul>
-<?php } ?>
 
-<?php // Si Pagina correctamente muestre el mensaje. hidden
-if ($_show_messagge == 'true'){ ?>
-<div class="alert alert-info" style = "padding:0px;margin-top:-18px;"><font style="font-size:10px">Mostrando de <?=$page_ini?> a <?=$page_fin?> Registros de, <?=$num_row_total?> en total</font></div>
-<?php } ?>
+<div id="messaggeresult"></div>
+
 </div>
 </div>
 
@@ -95,6 +93,8 @@ if ($_show_messagge == 'true'){ ?>
 //Declaro donde se va a responder la tabla.
 var divresponse = $("#listdata");
 var divpagination = $("#pagination");
+var divmresult = $("#messaggeresult");
+var divexport = $("#export");
 
 //Declaro valores principales de la paginacion
 //var Json_file = '<?=$Json_file?>';
@@ -109,7 +109,9 @@ var By =         $( "input[name='inputBy']" ).val();
 
 
   $( document ).ready(function() {
-  	
+  	//divexport.show();
+  	//divexport.hide();
+
   	//Obtenemos el tamaño de la pagina por defecto para el select
 	$("#selectdisplatrownum").val(Size_page);
 
@@ -163,3 +165,4 @@ var By =         $( "input[name='inputBy']" ).val();
   	});
 
 </script>
+

@@ -28,6 +28,8 @@ function loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,showp
 
 	   		//Limpio el resultado.
 	   		divresponse.html('');
+	   		divmresult.html('');
+	   		divexport.css("display", "none");
 	   			//Si la consulta se hizo correctamente muestro la data, lo contrario el mensaje de error
 	   			if(data[1]=='true'){
 		   			tableJson(data[0]); //LLamo la funcion para mostrar la data
@@ -40,9 +42,18 @@ function loadtable(name_proyect,Json_url,Json_file,Page,Size_page,Order,By,showp
 						pagination(Page,Total_pages); //LLamo la funcion que me permite paginar
 					}
 
+					//Calculo los datos para mostrar el mensaje de respuesta.
+					page_ini=parseInt(StartPage)+1;
+					page_fin=parseInt(StartPage)+parseInt(Size_page);
+ 					if(page_fin>NumRowTotal){ page_fin = NumRowTotal;}
 
+ 					//Muestro Exportar
+ 					//divexport.css("display", "block");
 
+					//Muestro el mensaje result
+					divmresult.html('<div class="alert alert-info" style = "padding:0px;margin-top:-18px;"><font style="font-size:10px">Mostrando '+page_ini+' a '+page_fin+' registros;  de '+NumRowTotal+' registros en total</font></div>');
 				}else{
+					divpagination.html("");
 					divresponse.html('<tr><td colspan="7"><div class="alert alert-'+data[2]+'">'+data[1]+'</div></td></tr>');						
 				}
 
@@ -116,7 +127,8 @@ for (var i = start ;i<=end;i++) {
 
 divpagination.html("");
 
-var htmlpag   = "<ul id='ulpagination' class='pagination'>";
+//var htmlpag   = "<ul class='pagination'>";
+var htmlpag ="";
 
 	if(Page!=1)	{
 		i=parseInt(Page)-1;
@@ -152,7 +164,7 @@ var htmlpag   = "<ul id='ulpagination' class='pagination'>";
 		}
 	}
 
-htmlpag = htmlpag +" </ul>";
+//htmlpag = htmlpag +" </ul>";
 
 divpagination.html(htmlpag);
 }

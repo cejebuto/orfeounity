@@ -41,6 +41,7 @@ WHERE
     or upper(pp.per_pro_nam) like '%".$filter."%' 
     or upper(pp.per_pro_sur) like '%".$filter."%' 
     or upper(pp.per_pro_ema) like '%".$filter."%' 
+    or upper(pp.per_pro_id) like '%".$filter."%' 
 ORDER BY ".$By." ".$_Order."
 ";
 
